@@ -3,6 +3,5 @@ module.exports = function (app) {
     require("./cors")(app)
     require("./parser")(app);
     require("./passport")(app)
-    require("./db")();
     require("./routes")(app);
   };
