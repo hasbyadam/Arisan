@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     lotteryDate: DataTypes.DATE,
     balance: DataTypes.INTEGER,
     totalParticipant: DataTypes.INTEGER,
-    status: DataTypes.BOOLEAN
+    status: DataTypes.BOOLEAN,
+    userId: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Arisan',

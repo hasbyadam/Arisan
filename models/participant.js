@@ -16,9 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   Participant.init({
     userId: DataTypes.INTEGER,
     arisanId: DataTypes.INTEGER,
-    havePaid: DataTypes.BOOLEAN,
     haveWon: DataTypes.BOOLEAN,
-    isAdmin: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'Participant',

@@ -14,13 +14,7 @@ module.exports = {
       arisanId: {
         type: Sequelize.INTEGER
       },
-      havePaid: {
-        type: Sequelize.BOOLEAN
-      },
       haveWon: {
-        type: Sequelize.BOOLEAN
-      },
-      isAdmin: {
         type: Sequelize.BOOLEAN
       },
       createdAt: {

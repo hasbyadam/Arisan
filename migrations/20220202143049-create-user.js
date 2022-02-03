@@ -23,6 +23,12 @@ module.exports = {
       image: {
         type: Sequelize.STRING
       },
+      password: {
+        type: Sequelize.STRING
+      },
+      saldo: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
