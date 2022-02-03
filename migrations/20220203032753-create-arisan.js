@@ -1,48 +1,48 @@
-'use strict';
+"use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Arisans', {
+    await queryInterface.createTable("Arisans", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       title: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       dues: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       paymentPeriod: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM(["Mingguan", "Bulanan"]),
       },
       lotteryDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       balance: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       totalParticipant: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       status: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
       },
       userId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Arisans');
-  }
+    await queryInterface.dropTable("Arisans");
+  },
 };
