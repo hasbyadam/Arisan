@@ -2,6 +2,7 @@ const { User }= require("../models")
 const jwt = require('jsonwebtoken')
 const catchError = require('../utils/error')
 const bcrypt = require('bcrypt')
+const { sendEmail } = require('../helpers/emailSender') 
 
 module.exports = {
     register: async (req, res) => {
@@ -34,6 +35,7 @@ module.exports = {
                 process.env.SECRET_TOKEN,
                 { expiresIn: "24h" }
             );
+            await sendEmail(user.email, "registration success", `Welcome ${user.firstName}`);
             res.status(200).json({
                 status: "Success",
                 message: "Successfully to create an account",
