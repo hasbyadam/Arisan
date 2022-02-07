@@ -8,7 +8,6 @@
   },
   "scripts": {
     "Dev": "npx nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-release": "node_modules/.bin/sequelize db:migrate",
     "start": "node app.js"
   },
