@@ -18,4 +18,9 @@ module.exports = {
     phoneNumber:Joi.string().required(),
     password: Joi.string().required(),
   }),
+  createContactSchema: Joi.object({
+    name:Joi.string().required(),
+    phoneNumber: Joi.string().required(),
+    email: Joi.string().email().required(),
+  }),
 };

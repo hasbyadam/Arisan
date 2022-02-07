@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const user = require('../../../Github/MVP-Basic-Feature/models/user');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -11,6 +12,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Contact, { as:"contact", foreignKey: 'userId' })
+      User.hasMany(models.Arisan, { foreignKey: 'userId' })
     }
   }
   User.init({
@@ -21,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     image: DataTypes.STRING,
     saldo: DataTypes.INTEGER,
+    active: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'User',
