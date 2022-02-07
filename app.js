@@ -8,4 +8,6 @@ app.get('/', (req, res) => {
     res.send('Connected')
 })
 
-app.listen(port, () => console.log(`Listening to ${port}`));
+app.listen(port, () => {
+    console.log(`Listening to ${port}`)
+});
