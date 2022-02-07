@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 require("./startup")(app);
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT;
 
 app.get('/', (req, res) => {
     res.send('Connected')
