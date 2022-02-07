@@ -1,0 +1,22 @@
+const express = require("express");
+const router = express.Router();
+const {
+  createArisan,
+  getArisans,
+  getArisan,
+  updateArisan,
+  deleteArisan,
+} = require("../controllers/arisanController");
+const { validate } = require("../middlewares/validator");
+const {
+  createArisanSchema,
+  updateArisanSchema,
+} = require("../helpers/joi-schema");
+
+router.post("/", validate(createArisanSchema), createArisan);
+router.get("/", getArisans);
+router.get("/:arisanId", getArisan);
+router.put("/:arisanId", validate(updateArisanSchema), updateArisan);
+router.delete("/:arisanId", deleteArisan);
+
+module.exports = router;
