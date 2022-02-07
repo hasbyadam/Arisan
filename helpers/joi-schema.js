@@ -30,4 +30,9 @@ module.exports = {
     paymentPeriod: Joi.string(),
     customDate: Joi.date().format("DD-MM-YYYY"),
   }),
+  createContactSchema: Joi.object({
+    name: Joi.string().required(),
+    phoneNumber: Joi.string().required(),
+    email: Joi.string().email().required(),
+  }),
 };

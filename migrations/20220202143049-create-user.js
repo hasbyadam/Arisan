@@ -29,6 +29,9 @@ module.exports = {
       saldo: {
         type: Sequelize.INTEGER
       },
+      active: {
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

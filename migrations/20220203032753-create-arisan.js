@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       dues: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       paymentPeriod: {
         type: Sequelize.ENUM(["Mingguan", "Bulanan"]),
@@ -34,6 +34,12 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: "Users",
+          key: "id",
+        },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       },
       createdAt: {
         allowNull: false,

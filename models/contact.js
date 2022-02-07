@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Contact.belongsTo(models.User,{as:'createdBy',foreignKey: 'userId'})
     }
   }
   Contact.init({
