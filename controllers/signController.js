@@ -14,16 +14,16 @@ module.exports = {
           email: body.email,
         },
       });
-      console.log(check.dataValues.active);
-      if (check && check.dataValues.active)
-        return res.status(400).json({
-          status: "Bad Request",
-          message: "Email already exists",
-        });
-      
+
       let user;
-      if (!check.dataValues.active) {
-         await User.update(
+      if (check) {
+        if (check.dataValues.active)
+          return res.status(400).json({
+            status: "Bad Request",
+            message: "Email already exists",
+          });
+        console.log(check.dataValues)
+        await User.update(
           {
             phoneNumber: body.phoneNumber,
             firstName: body.firstName,
@@ -38,8 +38,9 @@ module.exports = {
             },
           }
         );
-      } else {
-         user = await User.create({
+      }
+      else {
+        user = await User.create({
           phoneNumber: body.phoneNumber,
           firstName: body.firstName,
           lastName: body.lastName,
