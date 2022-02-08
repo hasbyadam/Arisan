@@ -126,22 +126,22 @@ module.exports = {
       let sort;
       switch (order) {
         case "ztoa":
-          sort = ["title", "DESC"];
+          sort = [["title", "DESC"]];
           break;
         case "anggota":
           {
-            sort = ["totalParticipant", "DESC"];
+            sort = [["totalParticipant", "DESC"]];
           }
           break;
         default:
           {
-            sort = ["title", "ASC"];
+            sort = [["title", "ASC"]];
           }
           break;
       }
 
       const arisan = await Arisan.findAll({
-        order: [sort],
+        order: sort,
       });
 
       if (!arisan) {
