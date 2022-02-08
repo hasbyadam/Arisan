@@ -15,14 +15,13 @@ module.exports = {
         },
       });
 
-      
+     console.log(check)
       if (check) {
         if (check.dataValues.active)
           return res.status(400).json({
             status: "Bad Request",
             message: "Email already exists",
           });
-        console.log(check.dataValues);
         var user = await User.update(
           {
             phoneNumber: body.phoneNumber,
@@ -36,8 +35,10 @@ module.exports = {
             where: {
               phoneNumber: body.phoneNumber,
             },
+            returning: true
           }
         );
+        user = user[1][0].dataValues
       } else {
         var user = await User.create({
           phoneNumber: body.phoneNumber,
@@ -48,7 +49,6 @@ module.exports = {
           active: true,
         });
       }
-
       const token = jwt.sign(
         {
           id: user.id,
@@ -57,6 +57,7 @@ module.exports = {
         process.env.SECRET_TOKEN,
         { expiresIn: "24h" }
       );
+      
       await sendEmail(
         user.email,
         "registration success",
