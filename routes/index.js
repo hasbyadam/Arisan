@@ -4,6 +4,7 @@ const signRoute = require("./signRoute");
 const arisanRoute = require("./arisanRoute");
 const contactRoute = require("./contactRoute");
 
+router.use("/arisan", arisanRoute);
 router.use("/sign", signRoute);
 router.use("/arisan", arisanRoute);
 router.use("/contact", contactRoute);

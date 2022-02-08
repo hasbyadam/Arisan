@@ -1,29 +1,29 @@
-const { User }= require("../models")
-const jwt = require('jsonwebtoken')
-const catchError = require('../utils/error')
-const bcrypt = require('bcrypt')
-const { sendEmail } = require('../helpers/emailSender') 
+const { User } = require("../models");
+const jwt = require("jsonwebtoken");
+const catchError = require("../utils/error");
+const bcrypt = require("bcrypt");
+const { sendEmail } = require("../helpers/emailSender");
 
 module.exports = {
   register: async (req, res) => {
     const body = req.body;
-    const hashedPassword = await bcrypt.hash(body.password, 10);
+    const hashedPassword = await bcrypt.hashSync(body.password, 10);
     try {
       const check = await User.findOne({
         where: {
           email: body.email,
         },
       });
-      console.log(check.dataValues.active);
-      if (check && check.dataValues.active)
-        return res.status(400).json({
-          status: "Bad Request",
-          message: "Email already exists",
-        });
-      
+
       let user;
-      if (!check.dataValues.active) {
-         await User.update(
+      if (check) {
+        if (check.dataValues.active)
+          return res.status(400).json({
+            status: "Bad Request",
+            message: "Email already exists",
+          });
+        console.log(check.dataValues);
+        await User.update(
           {
             phoneNumber: body.phoneNumber,
             firstName: body.firstName,
@@ -39,7 +39,7 @@ module.exports = {
           }
         );
       } else {
-         user = await User.create({
+        user = await User.create({
           phoneNumber: body.phoneNumber,
           firstName: body.firstName,
           lastName: body.lastName,
@@ -100,7 +100,7 @@ module.exports = {
           message: "Invalid phoneNumber and password combination",
           result: {},
         });
-      } 
+      }
       const token = jwt.sign(
         {
           id: user.id,

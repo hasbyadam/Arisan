@@ -2,7 +2,6 @@
 const {
   Model
 } = require('sequelize');
-const user = require('../../../Github/MVP-Basic-Feature/models/user');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
