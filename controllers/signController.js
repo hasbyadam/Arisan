@@ -15,7 +15,7 @@ module.exports = {
         },
       });
 
-      let user;
+      
       if (check) {
         if (check.dataValues.active)
           return res.status(400).json({
@@ -23,7 +23,7 @@ module.exports = {
             message: "Email already exists",
           });
         console.log(check.dataValues);
-        await User.update(
+        let user = await User.update(
           {
             phoneNumber: body.phoneNumber,
             firstName: body.firstName,
@@ -39,7 +39,7 @@ module.exports = {
           }
         );
       } else {
-        user = await User.create({
+        let user = await User.create({
           phoneNumber: body.phoneNumber,
           firstName: body.firstName,
           lastName: body.lastName,
