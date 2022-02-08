@@ -10,7 +10,7 @@ module.exports = {
         title: body.title,
         dues: body.dues,
         paymentPeriod: body.paymentPeriod,
-        customDate: body.customDate,
+        lotteryTime: body.lotteryTime,
       });
       if (!arisan) {
         return res.status(500).json({
