@@ -22,12 +22,12 @@ module.exports = {
     title: Joi.string().required(),
     dues: Joi.number().required(),
     paymentPeriod: Joi.required(),
-    lotteryTime: Joi.date().format("DD-MM-YYYY").required(),
+    lotteryDate: Joi.date().format("DD-MM-YYYY").required(),
   }),
   updateArisanSchema: Joi.object({
     title: Joi.string(),
     dues: Joi.number(),
     paymentPeriod: Joi.string(),
-    lotteryTime: Joi.date().format("DD-MM-YYYY"),
+    lotteryDate: Joi.date().format("DD-MM-YYYY"),
   }),
 };
