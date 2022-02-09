@@ -7,6 +7,7 @@ const profileRoute = require("./profileRoute");
 
 router.use("/arisan", arisanRoute);
 router.use("/sign", signRoute);
+router.use("/arisan", arisanRoute);
 router.use("/contact", contactRoute);
 router.use("/profile", profileRoute);
 

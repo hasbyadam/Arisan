@@ -5,12 +5,11 @@ const moment = require("moment");
 module.exports = {
   createArisan: async (req, res) => {
     const body = req.body;
+    let user_id = req.id;
     try {
       const arisan = await Arisan.create({
-        title: body.title,
-        dues: body.dues,
-        paymentPeriod: body.paymentPeriod,
-        customDate: body.customDate,
+        ...body,
+        user_id: user_id,
       });
       if (!arisan) {
         return res.status(500).json({
@@ -116,6 +115,46 @@ module.exports = {
         status: "Success",
         message: "Arisan successfully deleted",
         result: {},
+      });
+    } catch (error) {
+      catchError(error, res);
+    }
+  },
+  filterArisan: async (req, res) => {
+    const { order, page, limit } = req.query;
+    try {
+      let sort;
+      switch (order) {
+        case "ztoa":
+          sort = [["title", "DESC"]];
+          break;
+        case "anggota":
+          {
+            sort = [["totalParticipant", "DESC"]];
+          }
+          break;
+        default:
+          {
+            sort = [["title", "ASC"]];
+          }
+          break;
+      }
+
+      const arisan = await Arisan.findAll({
+        order: sort,
+      });
+
+      if (!arisan) {
+        return res.status(404).json({
+          status: "Not Found",
+          message: "Data does not exist!",
+          result: {},
+        });
+      }
+      res.status(200).json({
+        status: "success",
+        message: "Arisan successfully retrieved",
+        result: arisan,
       });
     } catch (error) {
       catchError(error, res);
