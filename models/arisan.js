@@ -16,8 +16,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       title: DataTypes.STRING,
       dues: DataTypes.STRING,
-      paymentPeriod: DataTypes.ENUM(["Mingguan", "Bulanan"]),
-      lotteryDate: DataTypes.DATE,
+      paymentPeriod: DataTypes.ENUM("Mingguan", "Bulanan"),
+      lotteryDate: DataTypes.DATEONLY,
       balance: DataTypes.INTEGER,
       totalParticipant: DataTypes.INTEGER,
       status: DataTypes.BOOLEAN,

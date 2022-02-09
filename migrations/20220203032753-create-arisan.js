@@ -15,10 +15,11 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       paymentPeriod: {
-        type: Sequelize.ENUM(["Mingguan", "Bulanan"]),
+        type: Sequelize.DataTypes.ENUM("Mingguan", "Bulanan"),
+        defaultValue: "Mingguan",
       },
       lotteryDate: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
       },
       balance: {
         type: Sequelize.INTEGER,

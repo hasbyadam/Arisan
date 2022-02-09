@@ -1,6 +1,5 @@
 const { Arisan } = require("../models");
 const catchError = require("../utils/error");
-const moment = require("moment");
 
 module.exports = {
   createArisan: async (req, res) => {
@@ -122,28 +121,22 @@ module.exports = {
   },
   filterArisan: async (req, res) => {
     const { order, page, limit } = req.query;
+
     try {
+      console.log(order);
       let sort;
       switch (order) {
         case "ztoa":
           sort = [["title", "DESC"]];
           break;
-        case "anggota":
-          {
-            sort = [["totalParticipant", "DESC"]];
-          }
-          break;
         default:
-          {
-            sort = [["title", "ASC"]];
-          }
+          sort = [["title", "ASC"]];
           break;
       }
 
       const arisan = await Arisan.findAll({
         order: sort,
       });
-
       if (!arisan) {
         return res.status(404).json({
           status: "Not Found",

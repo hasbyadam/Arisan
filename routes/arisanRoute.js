@@ -13,11 +13,13 @@ const {
   createArisanSchema,
   updateArisanSchema,
 } = require("../helpers/joi-schema");
+const { isLogin } = require("../middlewares/auth");
 
-router.post("/", validate(createArisanSchema), createArisan);
+router.post("/", isLogin, validate(createArisanSchema), createArisan);
+router.get("/filter", filterArisan);
 router.get("/", getArisans);
 router.get("/:arisanId", getArisan);
 router.put("/:arisanId", validate(updateArisanSchema), updateArisan);
 router.delete("/:arisanId", deleteArisan);
-router.get("/filter", filterArisan);
+
 module.exports = router;
