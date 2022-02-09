@@ -35,4 +35,20 @@ module.exports = {
     phoneNumber: Joi.string().required(),
     email: Joi.string().email().required(),
   }),
+  editProfileSchema: Joi.object({
+    phoneNumber: Joi.string(),
+    email: Joi.string().email(),
+    firstName: Joi.string(),
+    lastName: Joi.string(),
+  }),
+  editPasswordSchema: Joi.object({
+    newPassword: Joi.string()
+      .min(5)
+      .regex(/^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z])(?=.*[a-z])/)
+      .message(
+        '"password" should contain a mix of uppercase and lowercase letters, numbers, and special characters '
+      )
+      .required(),
+    oldPassword: Joi.string().required(),
+  }),
 };
