@@ -11,12 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Participant.belongsTo(models.User, { foreignKey: 'userId' })
+      Participant.belongsTo(models.Arisan, { foreignKey: 'arisanId' })
+      Participant.hasMany(models.History, { foreignKey: 'participantId' })
     }
   }
   Participant.init({
     userId: DataTypes.INTEGER,
     arisanId: DataTypes.INTEGER,
     haveWon: DataTypes.BOOLEAN,
+    havePaid: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'Participant',

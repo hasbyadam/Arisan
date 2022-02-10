@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       User.hasMany(models.Contact, { as:"contact", foreignKey: 'userId' })
       User.hasMany(models.Arisan, { foreignKey: 'userId' })
+      User.hasMany(models.Participant, { foreignKey: 'userId' })
     }
   }
   User.init({

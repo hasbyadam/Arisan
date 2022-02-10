@@ -1,36 +1,24 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Participants', {
+    await queryInterface.createTable('Histories', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
+      participantId: {
         type: Sequelize.INTEGER,
         references: {
-          model: "Users",
+          model: "Participants",
           key: "id",
         },
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       },
-      arisanId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "Arisans",
-          key: "id",
-        },
-        onDelete: "CASCADE",
-        onUpdate: "CASCADE",
-      },
-      haveWon: {
-        type: Sequelize.BOOLEAN
-      },
-      havePaid: {
-        type: Sequelize.BOOLEAN
+      periode: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -43,6 +31,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Participants');
+    await queryInterface.dropTable('Histories');
   }
 };
