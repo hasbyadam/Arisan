@@ -28,6 +28,7 @@ module.exports = {
       },
       status: {
         type: Sequelize.BOOLEAN,
+        defaultValue: "True",
       },
       userId: {
         type: Sequelize.INTEGER,

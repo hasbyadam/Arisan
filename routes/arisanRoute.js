@@ -7,6 +7,7 @@ const {
   updateArisan,
   deleteArisan,
   filterArisan,
+  searchArisan,
 } = require("../controllers/arisanController");
 const { validate } = require("../middlewares/validator");
 const {
@@ -14,7 +15,10 @@ const {
   updateArisanSchema,
 } = require("../helpers/joi-schema");
 
-router.post("/", validate(createArisanSchema), createArisan);
+router.post("/", isLogin, validate(createArisanSchema), createArisan);
+router.get("/search", searchArisan);
+router.get("/filter", filterArisan);
+
 router.get("/", getArisans);
 router.get("/:arisanId", getArisan);
 router.put("/:arisanId", validate(updateArisanSchema), updateArisan);

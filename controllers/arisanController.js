@@ -1,15 +1,21 @@
-const { Arisan } = require("../models");
+const { Arisan, Participant } = require("../models");
 const catchError = require("../utils/error");
-const moment = require("moment");
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
 
 module.exports = {
   createArisan: async (req, res) => {
     const body = req.body;
-    let user_id = req.id;
+    let user_id = req.user.id;
     try {
       const arisan = await Arisan.create({
         ...body,
-        user_id: user_id,
+        userId: user_id,
+      });
+      const arisanmember = await Participant.create({
+        userId: user_id,
+        arisanId: arisan.dataValues.id,
+        haveWon: false,
       });
       if (!arisan) {
         return res.status(500).json({
@@ -121,7 +127,7 @@ module.exports = {
     }
   },
   filterArisan: async (req, res) => {
-    const { order, page, limit } = req.query;
+    const { order } = req.query;
     try {
       let sort;
       switch (order) {
@@ -129,9 +135,7 @@ module.exports = {
           sort = [["title", "DESC"]];
           break;
         case "anggota":
-          {
-            sort = [["totalParticipant", "DESC"]];
-          }
+          sort = [["totalParticipant", "DESC"]];
           break;
         default:
           {
@@ -155,6 +159,31 @@ module.exports = {
         status: "success",
         message: "Arisan successfully retrieved",
         result: arisan,
+      });
+    } catch (error) {
+      catchError(error, res);
+    }
+  },
+  searchArisan: async (req, res) => {
+    try {
+      const findArisan = await Arisan.findAll({
+        where: {
+          title: {
+            [Op.iLike]: `%${req.query.title}%`,
+          },
+        },
+      });
+      if (!findArisan) {
+        return res.status(404).json({
+          status: "Not Found",
+          message: "Data does not exist!",
+          result: {},
+        });
+      }
+      res.status(200).json({
+        status: "success",
+        message: "Arisan successfully retrieved",
+        result: findArisan,
       });
     } catch (error) {
       catchError(error, res);
