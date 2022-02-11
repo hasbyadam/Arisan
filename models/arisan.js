@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const generateId = require("../utils/id-generator");
 module.exports = (sequelize, DataTypes) => {
   class Arisan extends Model {
     /**
@@ -15,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Arisan.init(
     {
+      idArisan: DataTypes.STRING(6),
       title: DataTypes.STRING,
       dues: DataTypes.STRING,
       paymentPeriod: DataTypes.ENUM(["Mingguan", "Bulanan"]),
@@ -27,6 +29,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Arisan",
+      hooks: {
+        beforeCreate: (arisan) => {
+          arisan.idArisan = generateId(arisan.idArisan);
+        },
+      },
     }
   );
   return Arisan;

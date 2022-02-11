@@ -39,7 +39,7 @@ module.exports = {
         limit: 10,
         order: [["createdAt", "DESC"]],
       });
-      if (!arisan) {
+      if (arisan.length == 0) {
         return res.status(404).json({
           status: "Not Found",
           message: "Data does not exist!",
@@ -168,9 +168,18 @@ module.exports = {
     try {
       const findArisan = await Arisan.findAll({
         where: {
-          title: {
-            [Op.iLike]: `%${req.query.title}%`,
-          },
+          [Op.or]: [
+            {
+              title: {
+                [Op.iLike]: `%${req.query.title}%`,
+              },
+            },
+            {
+              idArisan: {
+                [Op.iLike]: `%${req.query.idArisan}%`,
+              },
+            },
+          ],
         },
       });
       if (!findArisan) {
