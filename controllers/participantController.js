@@ -28,6 +28,7 @@ module.exports = {
         } catch (error) {
             catchError(error,res)
         }
-}
+    }
+
 }
 
