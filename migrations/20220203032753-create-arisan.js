@@ -1,4 +1,5 @@
 "use strict";
+const generateId = require("../utils/id-generator");
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("Arisans", {
@@ -7,6 +8,11 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
+      },
+      idArisan: {
+        allowNull: false,
+        type: Sequelize.STRING(6),
+        defaultValue: generateId(),
       },
       title: {
         type: Sequelize.STRING,

@@ -2,6 +2,7 @@ const { Arisan, Participant } = require("../models");
 const catchError = require("../utils/error");
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
+const generateId = require("../utils/id-generator");
 
 module.exports = {
   createArisan: async (req, res) => {
@@ -39,7 +40,7 @@ module.exports = {
         limit: 10,
         order: [["createdAt", "DESC"]],
       });
-      if (!arisan) {
+      if (arisan.length == 0) {
         return res.status(404).json({
           status: "Not Found",
           message: "Data does not exist!",
@@ -165,8 +166,11 @@ module.exports = {
     try {
       const findArisan = await Arisan.findAll({
         where: {
-          title: {
-            [Op.iLike]: `%${req.query.title}%`,
+          // title: {
+          //   [Op.iLike]: `%${req.query.title}%`,
+          // },
+          idArisan: {
+            [Op.iLike]: `%${req.query.idArisan}%`,
           },
         },
       });
