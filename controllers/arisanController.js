@@ -86,9 +86,9 @@ module.exports = {
         },
       });
       if (checkUpdate[0] != 1) {
-        return res.status(500).json({
-          status: "Internal Server Error",
-          message: "Failed to update arisan",
+        return res.status(404).json({
+          status: "Not Found",
+          message: "Data does not exist!",
           result: {},
         });
       }
