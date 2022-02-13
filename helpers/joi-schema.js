@@ -3,12 +3,12 @@ const Joi = require("joi").extend(require("@joi/date"));
 module.exports = {
   registerSchema: Joi.object({
     phoneNumber: Joi.string()
-      .min(10)
-      .max(12)
       .regex((/^[0-9]+$/))
       .message(
         "Invalid Phone Number"
-      )
+    )
+      .min(10)
+      .max(12)
       .required(),
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
