@@ -83,6 +83,12 @@ module.exports = {
             userId: req.user.id,
           },
         });
+      if (!data)
+        return res.status(200).json({
+          status: "Success",
+          message: "Contact Empty",
+          result: data,
+        });
       res.status(200).json({
         status: "Success",
         message: "Successfully to fetch contact",
