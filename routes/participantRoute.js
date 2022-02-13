@@ -7,7 +7,7 @@ const {isLogin} = require('../middlewares/auth')
 router.post("/create/:arisanId", isLogin, create);
 router.put("/edit/:participantId", isLogin, edit);
 router.delete("/delete/:participantId", isLogin, remove);
-router.get("/filter/", isLogin, filter);
+router.get("/filter/:arisanId", isLogin, filter);
 router.get("/:arisanId", isLogin, fetchAll);
 
 

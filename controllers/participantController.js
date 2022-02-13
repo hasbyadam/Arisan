@@ -56,7 +56,7 @@ module.exports = {
     try {
       const { havePaid } = req.body;
       const data = await Participant.findAll({
-        where: { havePaid: havePaid },
+        where: { havePaid: havePaid, arisanId: req.params.arisanId},
       });
       res.status(200).json({
         status: "Success",
