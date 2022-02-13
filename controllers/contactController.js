@@ -38,11 +38,11 @@ module.exports = {
     //if active dont change user data
     //if !active change user data
     try {
-      const { name, email } = await req.body;
+      const { name, phoneNumber, email } = await req.body;
       await Contact.update(
         {
           name: name,
-          phoneNumber:phoneNumber,
+          phoneNumber: phoneNumber,
           email: email,
         },
         {
