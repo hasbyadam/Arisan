@@ -45,8 +45,8 @@ module.exports = {
           );
           res.status(200).json({
             status: "Success",
-            message: "participant filtered",
-            result: {},
+            message: "Status Changed",
+            result: {havePaid: havePaid},
           });
       } catch (error) {
         catchError(error, res);
