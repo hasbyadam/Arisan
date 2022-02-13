@@ -24,4 +24,5 @@ router.get("/:arisanId", getArisan);
 router.put("/:arisanId", isLogin, validate(updateArisanSchema), updateArisan);
 router.delete("/:arisanId", isLogin, deleteArisan);
 
+
 module.exports = router;

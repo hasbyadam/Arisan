@@ -16,6 +16,7 @@ module.exports = {
         userId: user_id,
         arisanId: arisan.dataValues.id,
         haveWon: false,
+        havePaid: false,
       });
       if (!arisan) {
         return res.status(500).json({
@@ -138,13 +139,16 @@ module.exports = {
           sort = [["totalParticipant", "DESC"]];
           break;
         default:
-          sort = [["title", "ASC"]];
+          {
+            sort = [["title", "ASC"]];
+          }
           break;
       }
 
       const arisan = await Arisan.findAll({
         order: sort,
       });
+
       if (!arisan) {
         return res.status(404).json({
           status: "Not Found",

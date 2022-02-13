@@ -33,6 +33,10 @@ module.exports = {
     }
   },
   edit: async (req, res) => {
+    //find contact phone by id params
+    //use contact phone to find user
+    //if active dont change user data
+    //if !active change user data
     try {
       const { name, phoneNumber, email } = await req.body;
       await Contact.update(
@@ -82,6 +86,12 @@ module.exports = {
           where: {
             userId: req.user.id,
           },
+        });
+      if (data.length == 0)
+        return res.status(200).json({
+          status: "Success",
+          message: "Contact Empty",
+          result: data,
         });
       res.status(200).json({
         status: "Success",

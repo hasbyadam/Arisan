@@ -14,8 +14,6 @@ module.exports = {
           email: body.email,
         },
       });
-
-     console.log(check)
       if (check) {
         if (check.dataValues.active)
           return res.status(400).json({
