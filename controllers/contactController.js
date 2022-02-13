@@ -83,7 +83,7 @@ module.exports = {
             userId: req.user.id,
           },
         });
-      if (!data)
+      if (data.length == 0)
         return res.status(200).json({
           status: "Success",
           message: "Contact Empty",

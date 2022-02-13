@@ -1,11 +1,11 @@
 {
   "development": {
     "username": "postgres",
-    "password": "227965",
+    "password": "postgres",
     "database": "ArisanApp",
     "host": "127.0.0.1",
     "dialect": "postgres",
-    "port": "8080"
+    "port": "3000"
   },
   "test": {
     "username": "root",
