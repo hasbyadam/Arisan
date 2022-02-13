@@ -22,13 +22,13 @@ module.exports = {
     title: Joi.string().required(),
     dues: Joi.number().required(),
     paymentPeriod: Joi.required(),
-    lotteryDate: Joi.date().format("DD-MM-YYYY").required(),
+    lotteryDate: Joi.date().required(),
   }),
   updateArisanSchema: Joi.object({
     title: Joi.string(),
     dues: Joi.number(),
     paymentPeriod: Joi.string(),
-    lotteryDate: Joi.date().format("DD-MM-YYYY"),
+    lotteryDate: Joi.date(),
   }),
   editProfileSchema: Joi.object({
     phoneNumber: Joi.string(),
