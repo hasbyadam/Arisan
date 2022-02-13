@@ -8,7 +8,7 @@ router.post("/create/:arisanId", isLogin, create);
 router.put("/edit/:participantId", isLogin, edit);
 router.delete("/delete/:participantId", isLogin, remove);
 router.get("/filter/", isLogin, filter);
-router.get("/:arisanId", isLogin, filter, fetchAll);
+router.get("/:arisanId", isLogin, fetchAll);
 
 
 module.exports = router
