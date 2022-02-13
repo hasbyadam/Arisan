@@ -2,7 +2,14 @@ const Joi = require("joi").extend(require("@joi/date"));
 
 module.exports = {
   registerSchema: Joi.object({
-    phoneNumber: Joi.string().required(),
+    phoneNumber: Joi.string()
+      .min(10)
+      .max(12)
+      .regex((/^[0-9]+$/))
+      .message(
+        "Invalid Phone Number"
+      )
+      .required(),
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
     email: Joi.string().email().required(),
@@ -31,7 +38,13 @@ module.exports = {
     lotteryDate: Joi.date().format("DD-MM-YYYY"),
   }),
   editProfileSchema: Joi.object({
-    phoneNumber: Joi.string(),
+    phoneNumber: Joi.string()
+      .min(10)
+      .max(12)
+      .regex((/^[0-9]+$/))
+      .message(
+        "Invalid Phone Number"
+      ),
     email: Joi.string().email(),
     firstName: Joi.string(),
     lastName: Joi.string(),
@@ -49,7 +62,13 @@ module.exports = {
   createContactSchema: Joi.object({
     name: Joi.string().required(),
     email: Joi.string().email().required(),
-    phoneNumber: Joi.string().required(),
-    
+    phoneNumber: Joi.string()
+      .min(10)
+      .max(12)
+      .regex((/^[0-9]+$/))
+      .message(
+        "Invalid Phone Number"
+      )
+      .required(),
   }),
 };

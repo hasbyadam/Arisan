@@ -16,6 +16,7 @@ module.exports = {
         userId: user_id,
         arisanId: arisan.dataValues.id,
         haveWon: false,
+        havePaid: false,
       });
       if (!arisan) {
         return res.status(500).json({
