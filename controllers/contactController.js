@@ -34,11 +34,10 @@ module.exports = {
   },
   edit: async (req, res) => {
     try {
-      const { name, phoneNumber, email } = await req.body;
+      const { name, email } = await req.body;
       await Contact.update(
         {
           name: name,
-          phoneNumber: phoneNumber,
           email: email,
         },
         {
