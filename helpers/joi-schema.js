@@ -3,10 +3,8 @@ const Joi = require("joi").extend(require("@joi/date"));
 module.exports = {
   registerSchema: Joi.object({
     phoneNumber: Joi.string()
-      .regex((/^[0-9]+$/))
-      .message(
-        "Invalid Phone Number"
-    )
+      .regex(/^[0-9]+$/)
+      .message("Invalid Phone Number")
       .min(10)
       .max(12)
       .required(),
@@ -29,22 +27,20 @@ module.exports = {
     title: Joi.string().required(),
     dues: Joi.number().required(),
     paymentPeriod: Joi.required(),
-    lotteryDate: Joi.date().required(),
+    lotteryDate: Joi.date().format("DD-MM-YYYY").required(),
   }),
   updateArisanSchema: Joi.object({
     title: Joi.string(),
     dues: Joi.number(),
     paymentPeriod: Joi.string(),
-    lotteryDate: Joi.date(),
+    lotteryDate: Joi.date().format("DD-MM-YYYY"),
   }),
   editProfileSchema: Joi.object({
     phoneNumber: Joi.string()
       .min(10)
       .max(12)
-      .regex((/^[0-9]+$/))
-      .message(
-        "Invalid Phone Number"
-      ),
+      .regex(/^[0-9]+$/)
+      .message("Invalid Phone Number"),
     email: Joi.string().email(),
     firstName: Joi.string(),
     lastName: Joi.string(),
@@ -65,10 +61,8 @@ module.exports = {
     phoneNumber: Joi.string()
       .min(10)
       .max(12)
-      .regex((/^[0-9]+$/))
-      .message(
-        "Invalid Phone Number"
-      )
+      .regex(/^[0-9]+$/)
+      .message("Invalid Phone Number")
       .required(),
   }),
 };

@@ -1,6 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 const generateId = require("../utils/id-generator");
+const moment = require("moment");
 module.exports = (sequelize, DataTypes) => {
   class Arisan extends Model {
     /**
@@ -20,7 +21,14 @@ module.exports = (sequelize, DataTypes) => {
       title: DataTypes.STRING,
       dues: DataTypes.STRING,
       paymentPeriod: DataTypes.ENUM(["Mingguan", "Bulanan"]),
-      lotteryDate: DataTypes.DATEONLY,
+      lotteryDate: sequelize.define("Arisan", {
+        DateTime: {
+          type: DataTypes.DATEONLY,
+          get: function () {
+            return moment(this.getDataValue("DateTime")).format("DD-MM-YYYY");
+          },
+        },
+      }),
       balance: DataTypes.INTEGER,
       totalParticipant: DataTypes.INTEGER,
       status: DataTypes.BOOLEAN,
