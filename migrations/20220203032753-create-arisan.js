@@ -24,7 +24,7 @@ module.exports = {
         type: Sequelize.ENUM(["Mingguan", "Bulanan"]),
       },
       lotteryDate: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
       },
       balance: {
         type: Sequelize.INTEGER,

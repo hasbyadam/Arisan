@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Arisan.belongsTo(models.User, { foreignKey: "userId" });
-      Arisan.hasMany(models.Participant, { foreignKey: "arisanId" })
+      Arisan.hasMany(models.Participant, { foreignKey: "arisanId" });
     }
   }
   Arisan.init(
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       title: DataTypes.STRING,
       dues: DataTypes.STRING,
       paymentPeriod: DataTypes.ENUM(["Mingguan", "Bulanan"]),
-      lotteryDate: DataTypes.DATE,
+      lotteryDate: DataTypes.DATEONLY,
       balance: DataTypes.INTEGER,
       totalParticipant: DataTypes.INTEGER,
       status: DataTypes.BOOLEAN,
