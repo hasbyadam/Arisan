@@ -11,6 +11,7 @@ module.exports = {
       const arisan = await Arisan.create({
         ...body,
         userId: user_id,
+        totalParticipant: 1,
       });
       const arisanmember = await Participant.create({
         userId: user_id,
