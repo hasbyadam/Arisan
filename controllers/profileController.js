@@ -13,8 +13,6 @@ module.exports = {
         }
       })
       let saldo = 0
-      console.log(data2)
-      if (data2) {
         for (let i = 0; i < data2.length; i++) {
           saldo += data2[i].balance
         }
@@ -26,10 +24,10 @@ module.exports = {
             id: req.user.id
           }
         })
-        data = await User.findByPk(req.user.id, {
+        const data = await User.findByPk(req.user.id, {
           attributes: ["firstName", "lastName", "email", "image", "saldo"],
         });
-      }
+      
       res.status(200).json({
         status: "Success",
         message: "Profile Fetched",
