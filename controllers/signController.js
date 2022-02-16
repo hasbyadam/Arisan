@@ -11,14 +11,14 @@ module.exports = {
     try {
       const check = await User.findOne({
         where: {
-          email: body.email,
+          phoneNumber: body.phoneNumber,
         },
       });
       if (check) {
         if (check.dataValues.active)
           return res.status(400).json({
             status: "Bad Request",
-            message: "Email already exists",
+            message: "phoneNumber already exists",
           });
         var user = await User.update(
           {
@@ -28,6 +28,7 @@ module.exports = {
             email: body.email,
             password: hashedPassword,
             active: true,
+            saldo:0
           },
           {
             where: {

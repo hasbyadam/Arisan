@@ -12,6 +12,7 @@ module.exports = {
         ...body,
         userId: user_id,
         totalParticipant: 1,
+        balance: 0,
       });
       const arisanmember = await Participant.create({
         userId: user_id,
