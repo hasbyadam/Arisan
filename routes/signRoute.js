@@ -11,17 +11,17 @@ const passport = require("../config/passport");
 
 router.post("/register", validate(registerSchema), register);
 router.post("/login", validate(loginSchema), login);
-router.get(
-  "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
-router.get(
-  "/google/callback",
-  passport.authenticate(
-    "google",
-    { failureRedirect: "/api/v1/auth/google" },
-    googleCallback
-  )
-);
+// router.get(
+//   "/google",
+//   passport.authenticate("google", { scope: ["profile", "email"] })
+// );
+// router.get(
+//   "/google/callback",
+//   passport.authenticate(
+//     "google",
+//     { failureRedirect: "/api/v1/auth/google" },
+//     googleCallback
+//   )
+// );
 
 module.exports = router;
