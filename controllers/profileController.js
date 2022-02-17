@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Arisan } = require("../models");
 const catchError = require("../utils/error");
 const cloudinary = require("cloudinary")
 const bcrypt = require('bcrypt')
@@ -7,9 +7,27 @@ const bcrypt = require('bcrypt')
 module.exports = {
   fetchAccountInfo: async (req, res) => {
     try {
-      const data = await User.findByPk(req.user.id, {
-        attributes: ["firstName", "lastName", "email", "image"],
-      });
+      const data2 = await Arisan.findAll({
+        where: {
+          userId: req.user.id
+        }
+      })
+      let saldo = 0
+        for (let i = 0; i < data2.length; i++) {
+          saldo += data2[i].balance
+        }
+        await User.update({
+          saldo: saldo
+        },
+          {
+            where: {
+            id: req.user.id
+          }
+        })
+        const data = await User.findByPk(req.user.id, {
+          attributes: ["firstName", "lastName", "email", "image", "saldo"],
+        });
+      
       res.status(200).json({
         status: "Success",
         message: "Profile Fetched",

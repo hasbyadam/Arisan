@@ -12,11 +12,14 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       History.belongsTo(models.Participant, { foreignKey: 'participantId' })
+      History.belongsTo(models.Arisan, { foreignKey: 'arisanId' })
     }
   }
   History.init({
     participantId: DataTypes.INTEGER,
-    periode: DataTypes.STRING
+    arisanId: DataTypes.INTEGER,
+    periode: DataTypes.STRING,
+    
   }, {
     sequelize,
     modelName: 'History',

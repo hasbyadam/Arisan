@@ -21,7 +21,9 @@ module.exports = {
         type: Sequelize.STRING
       },
       image: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue:
+          "https://res.cloudinary.com/ddvobptro/image/upload/v1642494701/siluet_wni7t4.png",
       },
       password: {
         type: Sequelize.STRING
