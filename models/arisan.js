@@ -12,7 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Arisan.belongsTo(models.User, { foreignKey: "userId" });
-      Arisan.hasMany(models.Participant, { as:"participant", foreignKey: "arisanId" });
+      Arisan.hasMany(models.Participant, { as: "participant", foreignKey: "arisanId" });
+      Arisan.hasMany(models.History, { foreignKey: "arisanId" });
+      Arisan.hasMany(models.Memory, { foreignKey: "arisanId" });
     }
   }
   Arisan.init(

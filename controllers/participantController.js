@@ -1,28 +1,33 @@
 const catchError = require("../utils/error");
-const { Participant, Contact, User, Arisan } = require("../models");
+const { Participant, Contact, User, Arisan, History } = require("../models");
 
 module.exports = {
   create: async (req, res) => {
     try {
       const { contactId } = req.body;
       const users = [];
-      const contact = await Contact.findAll({
-        where: { userId: req.user.id },
-      });
-      for (let i = 0; i < contact.length; i++) {
+      for (let i = 0; i < contactId.length; i++) {
         const data = await Contact.findOne({
           where: { userId: req.user.id, id: contactId[i] },
         });
-        const search = await User.findOne({
-          where: { phoneNumber: data.dataValues.phoneNumber },
-        });
-        const user = {
-          userId: search.dataValues.id,
-          arisanId: req.params.arisanId,
-          haveWon: false,
-          havePaid: false,
-        };
-        users.push(user);
+         const search = await User.findOne({
+           where: { phoneNumber: data.dataValues.phoneNumber },
+         });
+          const check = await Participant.findOne({
+            where: { userId: search.dataValues.id, arisanId: req.params.arisanId }
+          })
+          if (!check) {
+           const user = {
+             userId: search.dataValues.id,
+             arisanId: req.params.arisanId,
+             haveWon: false,
+             havePaid: false,
+           };
+           users.push(user);
+          }
+           else {
+          
+           }
       }
       const participants = await Participant.bulkCreate(users);
 
@@ -32,7 +37,6 @@ module.exports = {
         }
       })
       const totalParticipant = arisan.dataValues.totalParticipant + users.length
-      console.log(totalParticipant)
       await Arisan.update(
         {
           totalParticipant: totalParticipant
@@ -122,6 +126,23 @@ module.exports = {
       res.status(200).json({
         status: "Success",
         message: "participant filtered",
+        result: data,
+      });
+    } catch (error) {
+      catchError(error, res);
+    }
+  },
+  sort: async (req, res) => { 
+    try {
+      const data = await History.findAll({
+        order: [["createdAt", "DESC"]],
+        where: {
+          arisanId: req.params.arisanId
+        }
+      })
+      res.status(200).json({
+        status: "success",
+        message: "Participant successfully sorted",
         result: data,
       });
     } catch (error) {

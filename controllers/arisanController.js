@@ -1,4 +1,4 @@
-const { Arisan, Participant } = require("../models");
+const { Arisan, Participant, History, User, Memory } = require("../models");
 const catchError = require("../utils/error");
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
@@ -68,6 +68,28 @@ module.exports = {
           message: "Data does not exist!",
           result: {},
         });
+      }
+
+      const check = await Memory.findAll()
+      
+      if (check.length != 5) {
+        await Memory.create({
+          arisanId: arisanId
+        })
+      }
+      else {
+        const search = await Memory.findOne({
+          order: [["updatedAt", "ASC"]]
+        })
+        const last = search.dataValues.id
+        console.log(search)
+        await Memory.update({
+          arisanId: arisanId
+        },{
+          where: {
+            id: last
+          }
+        })
       }
       res.status(200).json({
         status: "Success",
@@ -201,4 +223,89 @@ module.exports = {
       catchError(error, res);
     }
   },
+  startRaffle: async (req, res) => {
+    try {
+      const participant = await Participant.findAll({
+        where: {
+          arisanId: req.params.arisanId,
+          haveWon: false  
+        },
+      })
+      if (participant.length == 0)
+        return res.status(400).json({
+          status: "Failed",
+          message: "Sudah menang Semua",
+          result: {}
+        });
+        
+      const participants = []
+      for (let i = 0; i < participant.length; i++) {
+        participants.push(participant[i].id)
+      }
+      const randNumb = Math.floor(Math.random() * participants.length);
+      const winner = await Participant.findByPk(participants[randNumb])
+
+      await Participant.update({ haveWon: true }, { where: { id: participants[randNumb] } })
+      
+      const search = await Participant.findAll({
+        where: {
+          haveWon: true,
+          arisanId: req.params.arisanId
+        }
+      })
+      const next = search.length
+      const periode = 0
+      await History.create({
+        participantId: participants[randNumb],
+        periode: periode + next,
+        arisanId: req.params.arisanId
+      })
+        res.status(200).json({
+            status: "Success",
+            message: "Raffle Succsessfull",
+            result: winner
+          });
+    } catch (error) {
+        catchError(error, res);
+    }
+  },
+  fetchHistory: async (req, res) => {
+    try {
+      const data = await History.findAll({
+        include: {
+          model: Participant,
+          attributes: ["userId", "arisanId"],
+          include: {
+            model: User,
+            attributes: ["firstName"]
+          }
+        },
+        where: {
+          arisanId: req.params.arisanId
+        }
+      })
+      
+      res.status(200).json({
+        status: "Success",
+        message: "Fetch Succsessfull",
+        result: data
+      });
+    } catch (error) {
+      catchError(error, res);
+    }
+  },
+  sortArisanByMemory: async (req, res) => { 
+    try {
+      const data = await Memory.findAll({
+        order: [["updatedAt", "DESC"]]
+      })
+      res.status(200).json({
+        status: "Success",
+        message: "sort Succsessfull",
+        result: data
+      });
+    } catch (error) {
+      catchError(error, res);
+    }
+  }
 };

@@ -8,6 +8,9 @@ const {
   deleteArisan,
   filterArisan,
   searchArisan,
+  startRaffle,
+  fetchHistory,
+  sortArisanByMemory
 } = require("../controllers/arisanController");
 const { validate } = require("../middlewares/validator");
 const {
@@ -23,6 +26,11 @@ router.get("/", getArisans);
 router.get("/:arisanId", getArisan);
 router.put("/:arisanId", isLogin, validate(updateArisanSchema), updateArisan);
 router.delete("/:arisanId", isLogin, deleteArisan);
+router.get("/raffle/:arisanId", isLogin, startRaffle);
+
+router.get("/history/:arisanId", isLogin, fetchHistory);
+router.get("/sort/memory", isLogin, sortArisanByMemory);
+
 
 
 module.exports = router;

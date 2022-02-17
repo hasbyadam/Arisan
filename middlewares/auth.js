@@ -2,6 +2,7 @@ const { User } = require("../models");
 const jwt = require("jsonwebtoken");
 const catchError = require("../utils/error");
 
+
 module.exports = {
   isLogin: async (req, res, next) => {
     try {
