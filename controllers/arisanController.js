@@ -116,7 +116,6 @@ module.exports = {
           result: {},
         });
       }
-
       const updatedArisan = await Arisan.findByPk(arisanId);
       res.status(201).json({
         status: "Success",

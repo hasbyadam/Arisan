@@ -34,10 +34,10 @@ module.exports = {
             where: {
               phoneNumber: body.phoneNumber,
             },
-            returning: true
+            returning: true,
           }
         );
-        user = user[1][0].dataValues
+        user = user[1][0].dataValues;
       } else {
         var user = await User.create({
           phoneNumber: body.phoneNumber,
@@ -56,7 +56,7 @@ module.exports = {
         process.env.SECRET_TOKEN,
         { expiresIn: "24h" }
       );
-      
+
       await sendEmail(
         user.email,
         "registration success",
