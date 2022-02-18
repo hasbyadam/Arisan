@@ -10,43 +10,45 @@ module.exports = {
         const data = await Contact.findOne({
           where: { userId: req.user.id, id: contactId[i] },
         });
-         const search = await User.findOne({
-           where: { phoneNumber: data.dataValues.phoneNumber },
-         });
-          const check = await Participant.findOne({
-            where: { userId: search.dataValues.id, arisanId: req.params.arisanId }
-          })
-          if (!check) {
-           const user = {
-             userId: search.dataValues.id,
-             arisanId: req.params.arisanId,
-             haveWon: false,
-             havePaid: false,
-           };
-           users.push(user);
-          }
-           else {
-          
-           }
+        const search = await User.findOne({
+          where: { phoneNumber: data.dataValues.phoneNumber },
+        });
+        const check = await Participant.findOne({
+          where: {
+            userId: search.dataValues.id,
+            arisanId: req.params.arisanId,
+          },
+        });
+        if (!check) {
+          const user = {
+            userId: search.dataValues.id,
+            arisanId: req.params.arisanId,
+            haveWon: false,
+            havePaid: false,
+          };
+          users.push(user);
+        } else {
+        }
       }
       const participants = await Participant.bulkCreate(users);
 
       const arisan = await Arisan.findOne({
         where: {
-          id: req.params.arisanId
-        }
-      })
-      const totalParticipant = arisan.dataValues.totalParticipant + users.length
+          id: req.params.arisanId,
+        },
+      });
+      const totalParticipant =
+        arisan.dataValues.totalParticipant + users.length;
       await Arisan.update(
         {
-          totalParticipant: totalParticipant
+          totalParticipant: totalParticipant,
         },
         {
           where: {
-            id: req.params.arisanId 
-          } 
+            id: req.params.arisanId,
+          },
         }
-      )
+      );
 
       res.status(200).json({
         status: "Success",
@@ -59,16 +61,14 @@ module.exports = {
   },
   edit: async (req, res) => {
     try {
-
       const test = await Participant.findOne({
         where: { id: req.params.participantId },
-        include:
-            {
-              model: Arisan,
-              as: "arisan",
-              attributes: ["dues", "balance", "id"],
-            }
-      })
+        include: {
+          model: Arisan,
+          as: "arisan",
+          attributes: ["dues", "balance", "id"],
+        },
+      });
 
       const { havePaid } = req.body;
       await Participant.update(
@@ -79,35 +79,36 @@ module.exports = {
           where: {
             id: req.params.participantId,
           },
-          returning: true
+          returning: true,
         }
       );
-      
+
       if (test.havePaid == havePaid)
-        return  res.status(400).json({
+        return res.status(400).json({
           status: "Failed",
           message: "ga boleh sama",
           result: {},
         });
-      
-      let dues = test.dataValues.arisan.dataValues.dues
-      let balance = test.dataValues.arisan.dataValues.balance
+
+      let dues = test.dataValues.arisan.dataValues.dues;
+      let balance = test.dataValues.arisan.dataValues.balance;
       if (havePaid) {
-        balance += dues 
+        balance += dues;
+      } else {
+        balance -= dues;
       }
-      else {
-        balance -= dues 
-      }
-        const result  = await Arisan.update({
-          balance: balance
+      const result = await Arisan.update(
+        {
+          balance: balance,
         },
-          {
-            where: {
-            id: test.dataValues.arisan.dataValues.id
-            },
-            returning:true
-        })
-      
+        {
+          where: {
+            id: test.dataValues.arisan.dataValues.id,
+          },
+          returning: true,
+        }
+      );
+
       res.status(200).json({
         status: "Success",
         message: "Status Changed",
@@ -132,14 +133,14 @@ module.exports = {
       catchError(error, res);
     }
   },
-  sort: async (req, res) => { 
+  sort: async (req, res) => {
     try {
       const data = await History.findAll({
         order: [["createdAt", "DESC"]],
         where: {
-          arisanId: req.params.arisanId
-        }
-      })
+          arisanId: req.params.arisanId,
+        },
+      });
       res.status(200).json({
         status: "success",
         message: "Participant successfully sorted",

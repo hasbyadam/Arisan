@@ -274,15 +274,22 @@ module.exports = {
         include: {
           model: Participant,
           attributes: ["userId", "arisanId"],
-          include: {
+          include: [
+          {
             model: User,
             attributes: ["firstName"]
+          },
+          {
+            model: Arisan,
+            as: 'arisan',
+            attributes: ["dues"]
           }
+          ],
         },
         where: {
-          arisanId: req.params.arisanId
-        }
-      })
+          arisanId: req.params.arisanId,
+        },
+      });
       
       res.status(200).json({
         status: "Success",

@@ -7,7 +7,7 @@ const { sendEmail } = require("../helpers/emailSender");
 module.exports = {
   register: async (req, res) => {
     const body = req.body;
-    const hashedPassword = await bcrypt.hashSync(body.password, 10);
+    const hashedPassword =  bcrypt.hashSync(body.password, 10);
     try {
       const check = await User.findOne({
         where: {
