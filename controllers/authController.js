@@ -26,7 +26,8 @@ module.exports = {
       const check = await User.findOne({
         where: { email: userAuth.email },
       });
-      if (check) {
+      console.log(check);
+      if (!check) {
         return res.status(400).json({
           message: "Email Already Existed",
           status: "Bad Request",
@@ -71,7 +72,7 @@ module.exports = {
       const check = await User.findOne({
         where: { email: userFace.email },
       });
-      if (check) {
+      if (!check) {
         return res.status(400).json({
           message: "Email Already Existed",
           status: "Bad Request",
@@ -92,5 +93,6 @@ module.exports = {
       console.log(error);
       catchError(error, res);
     }
+    console.log(req.user);
   },
 };
