@@ -12,6 +12,6 @@ router.use("/sign", signRoute);
 router.use("/contact", contactRoute);
 router.use("/profile", profileRoute);
 router.use("/participant", participantRoute);
-// router.use("/auth", authRoute);
+router.use("/auth", authRoute);
 
 module.exports = router;

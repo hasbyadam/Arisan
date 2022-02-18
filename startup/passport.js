@@ -1,6 +1,6 @@
-// const passport = require("../config/passport");
-// const router = require("../routes");
-// module.exports = function (app) {
+const passport = require("../config/passport");
+const router = require("../routes");
+module.exports = function (app) {
 //   // app.use(router);
 //   // app.get(
 //   //   "/api/v1/auth/google",
@@ -14,5 +14,5 @@
 //   //     res.redirect("/user");
 //   //   }
 //   // );
-//   app.use(passport.initialize());
-// };
+  app.use(passport.initialize());
+};
