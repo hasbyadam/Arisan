@@ -11,10 +11,13 @@ module.exports = {
       if (!user) {
         user = await User.create({
           email: userAuth.email,
+          firstname: userAuth.given_name,
+          lastname: "",
           password: null,
           active: true,
         });
       }
+      console.log(user);
       const token = jwt.sign(
         {
           id: user.id,
@@ -26,7 +29,6 @@ module.exports = {
       const check = await User.findOne({
         where: { email: userAuth.email },
       });
-      console.log(check);
       if (!check) {
         return res.status(400).json({
           message: "Email Already Existed",
@@ -40,12 +42,13 @@ module.exports = {
           token,
           user: {
             email: user.email,
+            firstname: user.given_name,
+            lastname: "",
             password: null,
           },
         },
       });
     } catch (error) {
-      console.log(error);
       catchError(error, res);
     }
   },
@@ -57,6 +60,8 @@ module.exports = {
       if (!user) {
         user = await User.create({
           email: userFace.email,
+          firstname: userAuth.given_name,
+          lastname: "",
           password: null,
           active: true,
         });
@@ -90,7 +95,6 @@ module.exports = {
         },
       });
     } catch (error) {
-      console.log(error);
       catchError(error, res);
     }
     console.log(req.user);
