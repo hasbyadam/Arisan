@@ -17,7 +17,7 @@ module.exports = {
           active: true,
         });
       }
-      console.log(user);
+      console.log(req.user);
       const token = jwt.sign(
         {
           id: user.id,
@@ -42,7 +42,7 @@ module.exports = {
           token,
           user: {
             email: user.email,
-            firstname: user.given_name,
+            firstname: user.name,
             lastname: "",
             password: null,
           },
@@ -60,12 +60,13 @@ module.exports = {
       if (!user) {
         user = await User.create({
           email: userFace.email,
-          firstname: userAuth.given_name,
+          firstname: userFace.name,
           lastname: "",
           password: null,
           active: true,
         });
       }
+      console.log(req.user);
       const token = jwt.sign(
         {
           id: user.id,
@@ -90,6 +91,7 @@ module.exports = {
           token,
           user: {
             email: user.email,
+            firstname: user.name,
             password: null,
           },
         },
