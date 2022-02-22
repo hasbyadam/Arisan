@@ -1,7 +1,7 @@
 const { User, Arisan } = require("../models");
 const catchError = require("../utils/error");
-const cloudinary = require("cloudinary")
-const bcrypt = require('bcrypt')
+const cloudinary = require("cloudinary");
+const bcrypt = require("bcrypt");
 
 //Basic Feature
 module.exports = {
@@ -9,25 +9,34 @@ module.exports = {
     try {
       const data2 = await Arisan.findAll({
         where: {
-          userId: req.user.id
-        }
-      })
-      let saldo = 0
-        for (let i = 0; i < data2.length; i++) {
-          saldo += data2[i].balance
-        }
-        await User.update({
-          saldo: saldo
+          userId: req.user.id,
         },
-          {
-            where: {
-            id: req.user.id
-          }
-        })
-        const data = await User.findByPk(req.user.id, {
-          attributes: ["firstName", "lastName", "email", "image", "saldo"],
-        });
-      
+      });
+      let saldo = 0;
+      for (let i = 0; i < data2.length; i++) {
+        saldo += data2[i].balance;
+      }
+      await User.update(
+        {
+          saldo: saldo,
+        },
+        {
+          where: {
+            id: req.user.id,
+          },
+        }
+      );
+      const data = await User.findByPk(req.user.id, {
+        attributes: [
+          "firstName",
+          "lastName",
+          "email",
+          "image",
+          "phoneNumber",
+          "saldo",
+        ],
+      });
+
       res.status(200).json({
         status: "Success",
         message: "Profile Fetched",
@@ -106,16 +115,20 @@ module.exports = {
   },
   deleteImage: async (req, res) => {
     try {
-      const { image } = await User.findByPk(req.user.id)
-      const public_id = await image.substr(60)
-      console.log(public_id)
-      await cloudinary.v2.api.delete_resources(public_id); 
+      const { image } = await User.findByPk(req.user.id);
+      const public_id = await image.substr(60);
+      console.log(public_id);
+      await cloudinary.v2.api.delete_resources(public_id);
 
-      User.update({
-        image: "https://res.cloudinary.com/ddvobptro/image/upload/v1642494701/siluet_wni7t4.png"
-      }, {
-        where: { id: req.user.id }
-      })
+      User.update(
+        {
+          image:
+            "https://res.cloudinary.com/ddvobptro/image/upload/v1642494701/siluet_wni7t4.png",
+        },
+        {
+          where: { id: req.user.id },
+        }
+      );
       res.status(200).json({
         status: "Success",
         message: "image deleted",
