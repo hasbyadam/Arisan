@@ -68,13 +68,12 @@ module.exports = {
     let transaction;
     try {
       transaction = await sequelize.transaction();
-      const { firstName, lastName, email, phoneNumber } = await req.body;
+      const { firstName, lastName, email } = await req.body;
       await User.update(
         {
           firstName: firstName,
           lastName: lastName,
           email: email,
-          phoneNumber: phoneNumber,
         },
         { where: { id: req.user.id } },
         transaction
