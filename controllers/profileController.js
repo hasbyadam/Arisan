@@ -76,7 +76,8 @@ module.exports = {
           email: email,
           phoneNumber: phoneNumber,
         },
-        { where: { id: req.user.id } }
+        { where: { id: req.user.id } },
+        transaction
       );
       res.status(200).json({
         status: "Success",
