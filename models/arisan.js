@@ -12,7 +12,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Arisan.belongsTo(models.User, { foreignKey: "userId" });
-      Arisan.hasMany(models.Participant, { as: "participant", foreignKey: "arisanId" });
+      Arisan.hasMany(models.Participant, {
+        as: "participant",
+        foreignKey: "arisanId",
+      });
       Arisan.hasMany(models.History, { foreignKey: "arisanId" });
       Arisan.hasMany(models.Memory, { foreignKey: "arisanId" });
     }
@@ -23,14 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       title: DataTypes.STRING,
       dues: DataTypes.STRING,
       paymentPeriod: DataTypes.ENUM(["Mingguan", "Bulanan"]),
-      lotteryDate: sequelize.define("Arisan", {
-        DateTime: {
-          type: DataTypes.DATEONLY,
-          get: function () {
-            return moment(this.getDataValue("DateTime")).format("DD-MM-YYYY");
-          },
-        },
-      }),
+      lotteryDate: DataTypes.DATEONLY,
       balance: DataTypes.INTEGER,
       totalParticipant: DataTypes.INTEGER,
       status: DataTypes.BOOLEAN,
