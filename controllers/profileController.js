@@ -1,4 +1,4 @@
-const { User, Arisan } = require("../models");
+const { User, Arisan, sequelize } = require("../models");
 const catchError = require("../utils/error");
 const cloudinary = require("cloudinary");
 const bcrypt = require("bcrypt");
