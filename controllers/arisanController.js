@@ -2,6 +2,7 @@ const { Arisan, Participant, History, User, Memory } = require("../models");
 const catchError = require("../utils/error");
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
+const moment = require("moment");
 
 module.exports = {
   createArisan: async (req, res) => {
@@ -13,6 +14,7 @@ module.exports = {
         userId: user_id,
         totalParticipant: 1,
         balance: 0,
+        lotteryDate: moment(body.lotteryDate, "DD-MM-YYYY"),
       });
       const arisanmember = await Participant.create({
         userId: user_id,
@@ -70,26 +72,28 @@ module.exports = {
         });
       }
 
-      const check = await Memory.findAll()
-      
+      const check = await Memory.findAll();
+
       if (check.length != 5) {
         await Memory.create({
-          arisanId: arisanId
-        })
-      }
-      else {
+          arisanId: arisanId,
+        });
+      } else {
         const search = await Memory.findOne({
-          order: [["updatedAt", "ASC"]]
-        })
-        const last = search.dataValues.id
-        console.log(search)
-        await Memory.update({
-          arisanId: arisanId
-        },{
-          where: {
-            id: last
+          order: [["updatedAt", "ASC"]],
+        });
+        const last = search.dataValues.id;
+        console.log(search);
+        await Memory.update(
+          {
+            arisanId: arisanId,
+          },
+          {
+            where: {
+              id: last,
+            },
           }
-        })
+        );
       }
       res.status(200).json({
         status: "Success",
@@ -104,11 +108,14 @@ module.exports = {
     const { arisanId } = req.params;
     const body = req.body;
     try {
-      const checkUpdate = await Arisan.update(body, {
-        where: {
-          id: arisanId,
-        },
-      });
+      const checkUpdate = await Arisan.update(
+        { ...body, lotteryDate: moment(body.lotteryDate, "DD-MM-YYYY") },
+        {
+          where: {
+            id: arisanId,
+          },
+        }
+      );
       if (checkUpdate[0] != 1) {
         return res.status(404).json({
           status: "Not Found",
@@ -116,7 +123,9 @@ module.exports = {
           result: {},
         });
       }
-      const updatedArisan = await Arisan.findByPk(arisanId);
+      const updatedArisan = await Arisan.findByPk(arisanId, {
+        attributes: { exclude: ["status", "createdAt"] },
+      });
       res.status(201).json({
         status: "Success",
         message: "Arisan successfully updated",
@@ -227,45 +236,48 @@ module.exports = {
       const participant = await Participant.findAll({
         where: {
           arisanId: req.params.arisanId,
-          haveWon: false  
+          haveWon: false,
         },
-      })
+      });
       if (participant.length == 0)
         return res.status(400).json({
           status: "Failed",
           message: "Sudah menang Semua",
-          result: {}
+          result: {},
         });
-        
-      const participants = []
+
+      const participants = [];
       for (let i = 0; i < participant.length; i++) {
-        participants.push(participant[i].id)
+        participants.push(participant[i].id);
       }
       const randNumb = Math.floor(Math.random() * participants.length);
-      const winner = await Participant.findByPk(participants[randNumb])
+      const winner = await Participant.findByPk(participants[randNumb]);
 
-      await Participant.update({ haveWon: true }, { where: { id: participants[randNumb] } })
-      
+      await Participant.update(
+        { haveWon: true },
+        { where: { id: participants[randNumb] } }
+      );
+
       const search = await Participant.findAll({
         where: {
           haveWon: true,
-          arisanId: req.params.arisanId
-        }
-      })
-      const next = search.length
-      const periode = 0
+          arisanId: req.params.arisanId,
+        },
+      });
+      const next = search.length;
+      const periode = 0;
       await History.create({
         participantId: participants[randNumb],
         periode: periode + next,
-        arisanId: req.params.arisanId
-      })
-        res.status(200).json({
-            status: "Success",
-            message: "Raffle Succsessfull",
-            result: winner
-          });
+        arisanId: req.params.arisanId,
+      });
+      res.status(200).json({
+        status: "Success",
+        message: "Raffle Succsessfull",
+        result: winner,
+      });
     } catch (error) {
-        catchError(error, res);
+      catchError(error, res);
     }
   },
   fetchHistory: async (req, res) => {
@@ -275,43 +287,43 @@ module.exports = {
           model: Participant,
           attributes: ["userId", "arisanId"],
           include: [
-          {
-            model: User,
-            attributes: ["firstName"]
-          },
-          {
-            model: Arisan,
-            as: 'arisan',
-            attributes: ["dues"]
-          }
+            {
+              model: User,
+              attributes: ["firstName"],
+            },
+            {
+              model: Arisan,
+              as: "arisan",
+              attributes: ["dues"],
+            },
           ],
         },
         where: {
           arisanId: req.params.arisanId,
         },
       });
-      
+
       res.status(200).json({
         status: "Success",
         message: "Fetch Succsessfull",
-        result: data
+        result: data,
       });
     } catch (error) {
       catchError(error, res);
     }
   },
-  sortArisanByMemory: async (req, res) => { 
+  sortArisanByMemory: async (req, res) => {
     try {
       const data = await Memory.findAll({
-        order: [["updatedAt", "DESC"]]
-      })
+        order: [["updatedAt", "DESC"]],
+      });
       res.status(200).json({
         status: "Success",
         message: "sort Succsessfull",
-        result: data
+        result: data,
       });
     } catch (error) {
       catchError(error, res);
     }
-  }
+  },
 };
