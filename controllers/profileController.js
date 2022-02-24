@@ -65,7 +65,9 @@ module.exports = {
     }
   },
   editProfile: async (req, res) => {
+    let transaction;
     try {
+      transaction = await sequelize.transaction();
       const { firstName, lastName, email, phoneNumber } = await req.body;
       await User.update(
         {
@@ -80,12 +82,16 @@ module.exports = {
         status: "Success",
         message: "Profile updated",
       });
+      await transaction.commit();
     } catch (error) {
+      if (transaction) await transaction.rollback();
       catchError(error, res);
     }
   },
   changePassword: async (req, res) => {
+    let transaction;
     try {
+      transaction = await sequelize.transaction();
       const { newPassword, oldPassword } = await req.body;
       const { password } = await User.findByPk(req.user.id, {
         attributes: ["password"],
@@ -110,7 +116,9 @@ module.exports = {
         status: "Success",
         message: "Password updated",
       });
+      await transaction.commit();
     } catch (error) {
+      if (transaction) await transaction.rollback();
       catchError(error, res);
     }
   },

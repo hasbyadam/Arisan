@@ -11,7 +11,7 @@ module.exports = {
       if (!user) {
         user = await User.create({
           email: userAuth.email,
-          firstname: userAuth.given_name,
+          firstname: userAuth.name,
           lastname: "",
           password: null,
           active: true,
