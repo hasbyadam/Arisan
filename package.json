@@ -2,10 +2,16 @@
   "name": "mvp-master",
   "version": "1.0.0",
   "description": "MVP",
-  "main": "app.js",
+  "main": "server.js",
+  "jest": {
+    "testTimeout": 10000
+  },
   "scripts": {
-    "Dev": "npx nodemon app.js",
-    "heroku-release": "node_modules/.bin/sequelize db:migrate"
+    "dev": "npx nodemon server.js",
+    "undoMigrate": "npx sequelize db:migrate:undo:all",
+    "migrate": "npx sequelize db:migrate",
+    "heroku-release": "node_modules/.bin/sequelize db:migrate",
+    "test": "npx sequelize db:migrate:undo:all && npx sequelize db:migrate && jest --detectOpenHandles"
   },
   "author": "ArisanTeam",
   "license": "ISC",
@@ -34,6 +40,8 @@
     "sequelize-cli": "^6.4.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "jest": "^27.5.1",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.2"
   }
 }

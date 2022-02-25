@@ -17,7 +17,7 @@ module.exports = {
       });
 
       if (!check) {
-          await User.create({
+        await User.create({
           phoneNumber: phoneNumber,
           email: email,
           active: false,
@@ -44,9 +44,10 @@ module.exports = {
         {
           where: {
             userId: req.user.id,
-            id: req.params.id
+            id: req.params.id,
           },
-        });
+        }
+      );
       res.status(200).json({
         status: "Success",
         message: "Successfully to updated contact",
@@ -58,13 +59,12 @@ module.exports = {
   },
   remove: async (req, res) => {
     try {
-      await Contact.destroy(
-        {
-          where: {
-            userId: req.user.id,
-            id: req.params.id
-          },
-        });
+      await Contact.destroy({
+        where: {
+          userId: req.user.id,
+          id: req.params.id,
+        },
+      });
       res.status(200).json({
         status: "Success",
         message: "Successfully to delete contact",
@@ -76,13 +76,11 @@ module.exports = {
   },
   fetchAll: async (req, res) => {
     try {
-      
-      const data = await Contact.findAll(
-        {
-          where: {
-            userId: req.user.id,
-          },
-        });
+      const data = await Contact.findAll({
+        where: {
+          userId: req.user.id,
+        },
+      });
       if (data.length == 0)
         return res.status(200).json({
           status: "Success",

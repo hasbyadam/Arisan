@@ -16,19 +16,12 @@ module.exports = {
         balance: 0,
         lotteryDate: moment(body.lotteryDate, "DD-MM-YYYY"),
       });
-      const arisanmember = await Participant.create({
+      await Participant.create({
         userId: user_id,
         arisanId: arisan.dataValues.id,
         haveWon: false,
         havePaid: false,
       });
-      if (!arisan) {
-        return res.status(500).json({
-          status: "Internal Server Error",
-          message: "Failed to save data to database",
-          result: {},
-        });
-      }
       res.status(201).json({
         status: "Success",
         message: "Successfully created event",

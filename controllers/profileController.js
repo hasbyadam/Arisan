@@ -3,7 +3,6 @@ const catchError = require("../utils/error");
 const cloudinary = require("cloudinary");
 const bcrypt = require("bcrypt");
 
-//Basic Feature
 module.exports = {
   fetchAccountInfo: async (req, res) => {
     try {
@@ -27,6 +26,7 @@ module.exports = {
         }
       );
       const data = await User.findByPk(req.user.id, {
+        attributes: ["firstName", "lastName", "email", "image", "saldo"],
         attributes: [
           "firstName",
           "lastName",
@@ -61,7 +61,7 @@ module.exports = {
         result: path,
       });
     } catch (error) {
-      catchError(error, response);
+      catchError(error, res);
     }
   },
   editProfile: async (req, res) => {

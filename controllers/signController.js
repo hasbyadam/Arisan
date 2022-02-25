@@ -48,6 +48,7 @@ module.exports = {
           email: body.email,
           password: hashedPassword,
           active: true,
+          saldo:0
         });
       }
       const token = jwt.sign(

@@ -1,7 +1,7 @@
 module.exports = function (app) {
-    require("./config")();
+    require("./config")()
     require("./cors")(app)
-    require("./parser")(app);
+    require("./parser")(app)
     require("./passport")(app)
-    require("./routes")(app);
+    require("./routes")(app)
   };
