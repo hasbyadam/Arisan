@@ -1,7 +1,7 @@
-const { User, Arisan } = require("../models");
+const { User, Arisan, sequelize } = require("../models");
 const catchError = require("../utils/error");
-const cloudinary = require("cloudinary")
-const bcrypt = require('bcrypt')
+const cloudinary = require("cloudinary");
+const bcrypt = require("bcrypt");
 
 module.exports = {
   fetchAccountInfo: async (req, res) => {
@@ -27,6 +27,14 @@ module.exports = {
       );
       const data = await User.findByPk(req.user.id, {
         attributes: ["firstName", "lastName", "email", "image", "saldo"],
+        attributes: [
+          "firstName",
+          "lastName",
+          "email",
+          "image",
+          "phoneNumber",
+          "saldo",
+        ],
       });
 
       res.status(200).json({
@@ -57,7 +65,9 @@ module.exports = {
     }
   },
   editProfile: async (req, res) => {
+    let transaction;
     try {
+      transaction = await sequelize.transaction();
       const { firstName, lastName, email } = await req.body;
       await User.update(
         {
@@ -65,18 +75,23 @@ module.exports = {
           lastName: lastName,
           email: email,
         },
-        { where: { id: req.user.id } }
+        { where: { id: req.user.id } },
+        transaction
       );
       res.status(200).json({
         status: "Success",
         message: "Profile updated",
       });
+      await transaction.commit();
     } catch (error) {
+      if (transaction) await transaction.rollback();
       catchError(error, res);
     }
   },
   changePassword: async (req, res) => {
+    let transaction;
     try {
+      transaction = await sequelize.transaction();
       const { newPassword, oldPassword } = await req.body;
       const { password } = await User.findByPk(req.user.id, {
         attributes: ["password"],
@@ -101,7 +116,9 @@ module.exports = {
         status: "Success",
         message: "Password updated",
       });
+      await transaction.commit();
     } catch (error) {
+      if (transaction) await transaction.rollback();
       catchError(error, res);
     }
   },

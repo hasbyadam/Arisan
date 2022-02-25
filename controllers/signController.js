@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, sequelize } = require("../models");
 const jwt = require("jsonwebtoken");
 const catchError = require("../utils/error");
 const bcrypt = require("bcrypt");
@@ -6,9 +6,11 @@ const { sendEmail } = require("../helpers/emailSender");
 
 module.exports = {
   register: async (req, res) => {
+    let transaction;
     const body = req.body;
     const hashedPassword = bcrypt.hashSync(body.password, 10);
     try {
+      transaction = await sequelize.transaction();
       const check = await User.findOne({
         where: {
           phoneNumber: body.phoneNumber,
@@ -76,7 +78,9 @@ module.exports = {
           },
         },
       });
+      await transaction.commit();
     } catch (error) {
+      if (transaction) await transaction.rollback();
       catchError(error, res);
     }
   },

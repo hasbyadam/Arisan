@@ -1,5 +1,12 @@
 const catchError = require("../utils/error");
-const { Participant, Contact, User, Arisan, History } = require("../models");
+const {
+  Participant,
+  Contact,
+  User,
+  Arisan,
+  History,
+  sequelize,
+} = require("../models");
 
 module.exports = {
   create: async (req, res) => {
@@ -58,7 +65,9 @@ module.exports = {
     }
   },
   edit: async (req, res) => {
+    let transaction;
     try {
+      transaction = await sequelize.transaction();
       const test = await Participant.findOne({
         where: { id: req.params.participantId },
         include: {
@@ -66,6 +75,7 @@ module.exports = {
           as: "arisan",
           attributes: ["dues", "balance", "id"],
         },
+        transaction,
       });
 
       const { havePaid } = req.body;
@@ -78,7 +88,8 @@ module.exports = {
             id: req.params.participantId,
           },
           returning: true,
-        }
+        },
+        { transaction }
       );
 
       if (test.havePaid == havePaid)
@@ -104,7 +115,8 @@ module.exports = {
             id: test.dataValues.arisan.dataValues.id,
           },
           returning: true,
-        }
+        },
+        { transaction }
       );
 
       res.status(200).json({
@@ -112,7 +124,9 @@ module.exports = {
         message: "Status Changed",
         result: result[1][0].dataValues,
       });
+      await transaction.commit();
     } catch (error) {
+      if (transaction) await transaction.rollback();
       catchError(error, res);
     }
   },

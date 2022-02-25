@@ -2,6 +2,7 @@ const { Arisan, Participant, History, User, Memory } = require("../models");
 const catchError = require("../utils/error");
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
+const moment = require("moment");
 
 module.exports = {
   createArisan: async (req, res) => {
@@ -13,6 +14,7 @@ module.exports = {
         userId: user_id,
         totalParticipant: 1,
         balance: 0,
+        lotteryDate: moment(body.lotteryDate, "DD-MM-YYYY"),
       });
       await Participant.create({
         userId: user_id,
@@ -99,11 +101,14 @@ module.exports = {
     const { arisanId } = req.params;
     const body = req.body;
     try {
-      const checkUpdate = await Arisan.update(body, {
-        where: {
-          id: arisanId,
-        },
-      });
+      const checkUpdate = await Arisan.update(
+        { ...body, lotteryDate: moment(body.lotteryDate, "DD-MM-YYYY") },
+        {
+          where: {
+            id: arisanId,
+          },
+        }
+      );
       if (checkUpdate[0] != 1) {
         return res.status(404).json({
           status: "Not Found",
@@ -111,7 +116,9 @@ module.exports = {
           result: {},
         });
       }
-      const updatedArisan = await Arisan.findByPk(arisanId);
+      const updatedArisan = await Arisan.findByPk(arisanId, {
+        attributes: { exclude: ["status", "createdAt"] },
+      });
       res.status(201).json({
         status: "Success",
         message: "Arisan successfully updated",
