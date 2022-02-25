@@ -176,9 +176,6 @@ module.exports = {
     try {
       let sort;
       switch (order) {
-        case "atoz":
-          sort = [[{ model: Arisan, as: "arisan" }, "title", "ASC"]];
-          break;
         case "ztoa":
           sort = [[{ model: Arisan, as: "arisan" }, "title", "DESC"]];
           break;
@@ -186,6 +183,11 @@ module.exports = {
           sort = [
             [{ model: Arisan, as: "arisan" }, "totalParticipant", "DESC"],
           ];
+          break;
+        default:
+          {
+            sort = [[{ model: Arisan, as: "arisan" }, "title", "ASC"]];
+          }
           break;
       }
 
