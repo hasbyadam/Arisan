@@ -249,7 +249,7 @@ module.exports = {
           ],
         },
       });
-      if (!findArisan) {
+      if (findArisan.length == 0) {
         return res.status(404).json({
           status: "Not Found",
           message: "Data does not exist!",
