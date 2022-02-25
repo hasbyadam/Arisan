@@ -61,7 +61,7 @@ module.exports = {
         result: path,
       });
     } catch (error) {
-      catchError(error, response);
+      catchError(error, res);
     }
   },
   editProfile: async (req, res) => {

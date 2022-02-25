@@ -2,12 +2,12 @@
   "name": "mvp-master",
   "version": "1.0.0",
   "description": "MVP",
-  "main": "app.js",
+  "main": "server.js",
   "jest": {
     "testTimeout": 10000
   },
   "scripts": {
-    "dev": "npx nodemon app.js",
+    "dev": "npx nodemon server.js",
     "undoMigrate": "npx sequelize db:migrate:undo:all",
     "migrate": "npx sequelize db:migrate",
     "heroku-release": "node_modules/.bin/sequelize db:migrate",
