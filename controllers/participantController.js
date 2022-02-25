@@ -31,7 +31,6 @@ module.exports = {
         }
       }
       const participants = await Participant.bulkCreate(users);
-
       const arisan = await Arisan.findOne({
         where: {
           id: req.params.arisanId,
@@ -49,7 +48,6 @@ module.exports = {
           },
         }
       );
-
       res.status(200).json({
         status: "Success",
         message: "Successfully to create participant",
@@ -92,7 +90,7 @@ module.exports = {
 
       let dues = test.dataValues.arisan.dataValues.dues;
       let balance = test.dataValues.arisan.dataValues.balance;
-      if (havePaid) {
+      if (havePaid) { 
         balance += dues;
       } else {
         balance -= dues;

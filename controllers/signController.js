@@ -7,7 +7,7 @@ const { sendEmail } = require("../helpers/emailSender");
 module.exports = {
   register: async (req, res) => {
     const body = req.body;
-    const hashedPassword =  bcrypt.hashSync(body.password, 10);
+    const hashedPassword = bcrypt.hashSync(body.password, 10);
     try {
       const check = await User.findOne({
         where: {
@@ -28,7 +28,7 @@ module.exports = {
             email: body.email,
             password: hashedPassword,
             active: true,
-            saldo:0
+            saldo: 0,
           },
           {
             where: {
@@ -46,6 +46,7 @@ module.exports = {
           email: body.email,
           password: hashedPassword,
           active: true,
+          saldo:0
         });
       }
       const token = jwt.sign(

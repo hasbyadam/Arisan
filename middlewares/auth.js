@@ -9,7 +9,7 @@ module.exports = {
       let token = req.header("Authorization");
       if (!token) {
         return res.status(401).json({
-          status: "Unauthorized",
+            status: "Unauthorized",
           message: "No token detected",
         });
       }
@@ -42,3 +42,4 @@ module.exports = {
     }
   },
 };
+
