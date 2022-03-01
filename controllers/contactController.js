@@ -82,8 +82,6 @@ module.exports = {
         },
       });
       const result = search
-      const image = []
-      console.log(search.length)
       for (let i = 0; i < search.length; i++){
         const data = await User.findAll({
           where: {
@@ -102,7 +100,7 @@ module.exports = {
       res.status(200).json({
         status: "Success",
         message: "Successfully to fetch contact",
-        result: [search],
+        result: search,
       });
     } catch (error) {
       catchError(error, res);
