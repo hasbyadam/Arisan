@@ -33,11 +33,30 @@ module.exports = {
   },
   getArisans: async (req, res) => {
     try {
-      const arisan = await Arisan.findAll({
+      const participant = await Participant.findAll({
         limit: 10,
-        order: [["createdAt", "DESC"]],
+        order: [["arisanId", "ASC"]],
+        where: { userId: req.user.id },
+        attributes: ["arisanId"],
+        include: [
+          {
+            model: Arisan,
+            as: "arisan",
+            attributes: [
+              "userId",
+              "idArisan",
+              "title",
+              "dues",
+              "paymentPeriod",
+              "lotteryDate",
+              "balance",
+              "totalParticipant",
+              "status",
+            ],
+          },
+        ],
       });
-      if (arisan.length == 0) {
+      if (participant.length == 0) {
         return res.status(404).json({
           status: "Not Found",
           message: "Data does not exist!",
@@ -47,7 +66,7 @@ module.exports = {
       res.status(200).json({
         status: "success",
         message: "Arisan successfully retrieved",
-        result: arisan,
+        result: participant,
       });
     } catch (error) {
       catchError(error, res);
@@ -158,23 +177,45 @@ module.exports = {
       let sort;
       switch (order) {
         case "ztoa":
-          sort = [["title", "DESC"]];
+          sort = [[{ model: Arisan, as: "arisan" }, "title", "DESC"]];
           break;
         case "anggota":
-          sort = [["totalParticipant", "DESC"]];
+          sort = [
+            [{ model: Arisan, as: "arisan" }, "totalParticipant", "DESC"],
+          ];
           break;
         default:
           {
-            sort = [["title", "ASC"]];
+            sort = [[{ model: Arisan, as: "arisan" }, "title", "ASC"]];
           }
           break;
       }
 
-      const arisan = await Arisan.findAll({
+      const participant = await Participant.findAll({
+        limit: 10,
         order: sort,
+        where: { userId: req.user.id },
+        attributes: ["arisanId"],
+        include: [
+          {
+            model: Arisan,
+            as: "arisan",
+            attributes: [
+              "userId",
+              "idArisan",
+              "title",
+              "dues",
+              "paymentPeriod",
+              "lotteryDate",
+              "balance",
+              "totalParticipant",
+              "status",
+            ],
+          },
+        ],
       });
 
-      if (!arisan) {
+      if (!participant) {
         return res.status(404).json({
           status: "Not Found",
           message: "Data does not exist!",
@@ -184,7 +225,7 @@ module.exports = {
       res.status(200).json({
         status: "success",
         message: "Arisan successfully retrieved",
-        result: arisan,
+        result: participant,
       });
     } catch (error) {
       catchError(error, res);
@@ -208,7 +249,7 @@ module.exports = {
           ],
         },
       });
-      if (!findArisan) {
+      if (findArisan.length == 0) {
         return res.status(404).json({
           status: "Not Found",
           message: "Data does not exist!",
