@@ -76,21 +76,33 @@ module.exports = {
   },
   fetchAll: async (req, res) => {
     try {
-      const data = await Contact.findAll({
+      const search = await Contact.findAll({
         where: {
           userId: req.user.id,
         },
       });
-      if (data.length == 0)
+      const result = search
+      const image = []
+      console.log(search.length)
+      for (let i = 0; i < search.length; i++){
+        const data = await User.findAll({
+          where: {
+            phoneNumber: search[i].phoneNumber,
+          },
+          attributes: ["image"]
+        });
+        result[i].dataValues.image = data[0].dataValues.image
+      }   
+      if (search.length == 0)
         return res.status(200).json({
           status: "Success",
           message: "Contact Empty",
-          result: data,
+          result: {}
         });
       res.status(200).json({
         status: "Success",
         message: "Successfully to fetch contact",
-        result: data,
+        result: [search],
       });
     } catch (error) {
       catchError(error, res);
