@@ -57,7 +57,7 @@ module.exports = {
         ],
       });
       if (participant.length == 0) {
-        return res.status(404).json({
+        return res.status(400).json({
           status: "Not Found",
           message: "Data does not exist!",
           result: {},
@@ -77,7 +77,7 @@ module.exports = {
     try {
       const arisan = await Arisan.findByPk(arisanId);
       if (!arisan) {
-        return res.status(404).json({
+        return res.status(400).json({
           status: "Not Found",
           message: "Data does not exist!",
           result: {},
@@ -95,7 +95,6 @@ module.exports = {
           order: [["updatedAt", "ASC"]],
         });
         const last = search.dataValues.id;
-        console.log(search);
         await Memory.update(
           {
             arisanId: arisanId,
