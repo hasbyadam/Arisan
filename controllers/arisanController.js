@@ -63,7 +63,7 @@ module.exports = {
           result: {},
         });
       }
-      res.status(200).json({
+      res.status(201).json({
         status: "success",
         message: "Arisan successfully retrieved",
         result: participant,
@@ -106,7 +106,7 @@ module.exports = {
           }
         );
       }
-      res.status(200).json({
+      res.status(201).json({
         status: "Success",
         message: "Arisan successfully retrieved",
         result: arisan,
@@ -128,7 +128,7 @@ module.exports = {
         }
       );
       if (checkUpdate[0] != 1) {
-        return res.status(404).json({
+        return res.status(200).json({
           status: "Not Found",
           message: "Data does not exist!",
           result: {},
@@ -155,13 +155,13 @@ module.exports = {
         },
       });
       if (!arisan) {
-        return res.status(404).json({
+        return res.status(200).json({
           status: "Not Found",
           message: "Data does not exist!",
           result: {},
         });
       }
-      res.status(200).json({
+      res.status(201).json({
         status: "Success",
         message: "Arisan successfully deleted",
         result: {},
@@ -215,7 +215,7 @@ module.exports = {
       });
 
       if (!participant) {
-        return res.status(404).json({
+        return res.status(200).json({
           status: "Not Found",
           message: "Data does not exist!",
           result: {},
