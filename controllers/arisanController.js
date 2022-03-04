@@ -291,7 +291,7 @@ module.exports = {
             {
               model: User,
               as: 'user',
-              attributes: ["firstName", "lastName"]
+              attributes: ["firstName", "lastName", "image"]
             },
             {
               model: Arisan,
