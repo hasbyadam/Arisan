@@ -284,7 +284,23 @@ module.exports = {
         participants.push(participant[i].id);
       }
       const randNumb = Math.floor(Math.random() * participants.length);
-      const winner = await Participant.findByPk(participants[randNumb]);
+      const winner = await Participant.findByPk(
+        participants[randNumb],
+        { attributes: ["userId", "arisanId"] ,
+          include: [
+            {
+              model: User,
+              as: 'user',
+              attributes: ["firstName", "lastName"]
+            },
+            {
+              model: Arisan,
+              as: 'arisan',
+              attributes: ["balance"]
+            },
+          ],
+        }
+      );
 
       await Participant.update(
         { haveWon: true },
@@ -322,12 +338,13 @@ module.exports = {
           include: [
             {
               model: User,
-              attributes: ["firstName"],
+              as: "user",
+              attributes: ["firstName", "lastName"],
             },
             {
               model: Arisan,
               as: "arisan",
-              attributes: ["dues"],
+              attributes: ["balance"],
             },
           ],
         },

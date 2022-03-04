@@ -18,6 +18,7 @@ module.exports = {
 
       if (!check) {
         await User.create({
+          firstName: name,
           phoneNumber: phoneNumber,
           email: email,
           active: false,
