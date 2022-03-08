@@ -101,7 +101,7 @@ module.exports = {
 
       let dues = test.dataValues.arisan.dataValues.dues;
       let balance = test.dataValues.arisan.dataValues.balance;
-      if (havePaid) { 
+      if (havePaid) {
         balance += dues;
       } else {
         balance -= dues;
@@ -180,6 +180,13 @@ module.exports = {
     try {
       const data = await Participant.findAll({
         where: { arisanId: req.params.arisanId },
+        include: [
+          {
+            model: Contact,
+            as: "contact",
+            attributes: ["name", "phoneNumber"],
+          },
+        ],
       });
       res.status(200).json({
         status: "Success",

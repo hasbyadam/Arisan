@@ -24,7 +24,7 @@ module.exports = {
       });
       res.status(201).json({
         status: "Success",
-        message: "Successfully created event",
+        message: "Successfully create arisan",
         result: arisan,
       });
     } catch (error) {
@@ -284,23 +284,21 @@ module.exports = {
         participants.push(participant[i].id);
       }
       const randNumb = Math.floor(Math.random() * participants.length);
-      const winner = await Participant.findByPk(
-        participants[randNumb],
-        { attributes: ["userId", "arisanId"] ,
-          include: [
-            {
-              model: User,
-              as: 'user',
-              attributes: ["firstName", "lastName", "image"]
-            },
-            {
-              model: Arisan,
-              as: 'arisan',
-              attributes: ["balance"]
-            },
-          ],
-        }
-      );
+      const winner = await Participant.findByPk(participants[randNumb], {
+        attributes: ["userId", "arisanId"],
+        include: [
+          {
+            model: User,
+            as: "user",
+            attributes: ["firstName", "lastName", "image"],
+          },
+          {
+            model: Arisan,
+            as: "arisan",
+            attributes: ["balance"],
+          },
+        ],
+      });
 
       await Participant.update(
         { haveWon: true },
