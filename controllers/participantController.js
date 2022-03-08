@@ -182,9 +182,9 @@ module.exports = {
         where: { arisanId: req.params.arisanId },
         include: [
           {
-            model: Contact,
-            as: "contact",
-            attributes: ["name", "phoneNumber"],
+            model: User,
+            as: "user",
+            attributes: ["firstName","lastName","phoneNumber","image"],
           },
         ],
       });
