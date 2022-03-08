@@ -76,7 +76,7 @@ module.exports = {
     const { arisanId } = req.params;
     try {
       const arisan = await Arisan.findByPk(arisanId);
-      if (!arisan) {
+      if (arisan.length == 0) {
         return res.status(400).json({
           status: "Not Found",
           message: "Data does not exist!",
