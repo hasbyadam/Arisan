@@ -178,7 +178,9 @@ module.exports = {
   },
   fetchAll: async (req, res) => {
     try {
-      const data = await Participant.findAll({
+      //if user have participant phoneNumber in contacts name from contact model
+      //else name from user model
+      const participants = await Participant.findAll({
         where: { arisanId: req.params.arisanId },
         include: [
           {
@@ -188,10 +190,47 @@ module.exports = {
           },
         ],
       });
+      const result = []
+      let name
+
+      for (let i = 0; i < participants.length; i++){
+        var check = await Contact.findOne({
+          where: {
+            phoneNumber: participants[i].user.dataValues.phoneNumber,
+            userId: req.user.id
+          } 
+        })
+        if (check) {
+         name = check.dataValues.name
+        }
+        else {
+         name = participants[i].user.dataValues.firstName
+        }
+        const data = {
+          name: name,
+          phoneNumber: participants[i].user.dataValues.phoneNumber,
+          image: participants[i].user.dataValues.image,
+        }
+        result.push(data)
+      }
+      
+      
+
+      // const data = await Participant.findAll({
+      //   where: { arisanId: req.params.arisanId },
+      //   include: [
+      //     {
+      //       model: User,
+      //       as: "user",
+      //       attributes: ["firstName","lastName","phoneNumber","image"],
+      //     },
+      //   ],
+      // });
+      
       res.status(200).json({
         status: "Success",
         message: "participant fetched",
-        result: data,
+        result: result,
       });
     } catch (error) {
       catchError(error, res);
