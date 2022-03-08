@@ -6,6 +6,16 @@ module.exports = {
     try {
       const { name, phoneNumber, email } = await req.body;
       const { id } = await req.user;
+      const search = await Contact.findOne({
+        where: {phoneNumber: phoneNumber, userId: id}
+      })
+      if (search) {
+        return res.status(400).json({
+          status: "Failed",
+          message: "Cannot add exsisting phoneNumber",
+          result: {}
+        });
+      }
       const data = await Contact.create({
         name: name,
         phoneNumber: phoneNumber,
@@ -13,7 +23,7 @@ module.exports = {
         userId: id,
       });
       const check = await User.findOne({
-        where: { email: email },
+        where: { phoneNumber: phoneNumber },
       });
 
       if (!check) {
@@ -35,11 +45,10 @@ module.exports = {
   },
   edit: async (req, res) => {
     try {
-      const { name, phoneNumber, email } = await req.body;
+      const { name, email } = await req.body;
       await Contact.update(
         {
           name: name,
-          phoneNumber: phoneNumber,
           email: email,
         },
         {
