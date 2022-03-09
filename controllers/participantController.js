@@ -188,10 +188,15 @@ module.exports = {
             as: "user",
             attributes: ["firstName","lastName","phoneNumber","image"],
           },
+          {
+            model: Arisan,
+            as: "arisan",
+            attributes: ["dues"],
+          },
         ],
       });
       const result = []
-      let name
+      let name, dues
 
       for (let i = 0; i < participants.length; i++){
         var check = await Contact.findOne({
@@ -206,13 +211,20 @@ module.exports = {
         else {
          name = participants[i].user.dataValues.firstName
         }
+        if (participants[i].dataValues.havePaid) {
+          dues = 0
+        }
+        else {
+          dues = participants[i].arisan.dataValues.dues
+        }
         const data = {
           name: name,
           phoneNumber: participants[i].user.dataValues.phoneNumber,
           image: participants[i].user.dataValues.image,
           haveWon: participants[i].dataValues.haveWon,
           havePaid: participants[i].dataValues.havePaid,
-          id: participants[i].dataValues.id
+          id: participants[i].dataValues.id,
+          dues: dues
         }
         result.push(data)
         }
