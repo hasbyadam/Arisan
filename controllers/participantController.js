@@ -211,7 +211,8 @@ module.exports = {
           phoneNumber: participants[i].user.dataValues.phoneNumber,
           image: participants[i].user.dataValues.image,
           haveWon: participants[i].dataValues.haveWon,
-          havePaid: participants[i].dataValues.havePaid
+          havePaid: participants[i].dataValues.havePaid,
+          id: participants[i].dataValues.id
         }
         result.push(data)
         }
