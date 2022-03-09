@@ -164,9 +164,44 @@ module.exports = {
   },
   remove: async (req, res) => {
     try {
-      await Participant.destroy({
+      const data = await Participant.findOne({
         where: { id: req.params.participantId },
+        attributes: ["arisanId", "userId"],
+        include: [{
+          model: Arisan,
+          as: "arisan",
+          attributes: ["totalParticipant", "userId"]
+        }]
+      })
+      console.log(data)
+      if (data.dataValues.arisan.dataValues.userId ==! req.user.id) {
+        return res.status(401).json({
+          status: "Failed",
+          message: "Unauthorized access",
+          result: {},
+        })
+      }
+      if (data.dataValues.userId == req.user.id) {
+        return res.status(400).json({
+          status: "Failed",
+          message: "Cannot delete self",
+          result: {},
+        })
+      }
+      await Participant.destroy({
+        where: {
+          id: req.params.participantId,
+        },
       });
+      
+      const totalParticipant = data.dataValues.arisan.dataValues.totalParticipant - 1
+      await Arisan.update(
+      {
+        totalParticipant: totalParticipant
+      },
+      {
+        where: {id: data.dataValues.arisanId}
+      })
       res.status(200).json({
         status: "Success",
         message: "participant deleted",
