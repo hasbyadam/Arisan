@@ -210,29 +210,18 @@ module.exports = {
           name: name,
           phoneNumber: participants[i].user.dataValues.phoneNumber,
           image: participants[i].user.dataValues.image,
+          haveWon: participants[i].dataValues.haveWon,
+          havePaid: participants[i].dataValues.havePaid
         }
         result.push(data)
-      }
-      
-      
-
-      // const data = await Participant.findAll({
-      //   where: { arisanId: req.params.arisanId },
-      //   include: [
-      //     {
-      //       model: User,
-      //       as: "user",
-      //       attributes: ["firstName","lastName","phoneNumber","image"],
-      //     },
-      //   ],
-      // });
-      
-      res.status(200).json({
-        status: "Success",
-        message: "participant fetched",
-        result: result,
-      });
-    } catch (error) {
+        }
+        res.status(200).json({
+          status: "Success",
+          message: "participant fetched",
+          result: result,
+        });
+      }    
+     catch (error) {
       catchError(error, res);
     }
   },
