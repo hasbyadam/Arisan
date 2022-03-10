@@ -132,10 +132,17 @@ module.exports = {
   },
   filter: async (req, res) => {
     try {
-      const { havePaid } = req.body;
-      const data = await Participant.findAll({
-        where: { havePaid: havePaid, arisanId: req.params.arisanId },
-      });
+      const { haveWon, havePaid } = req.body;
+      if (req.body.havePaid === true || req.body.havePaid === false) {
+        var data = await Participant.findAll({
+          where: { havePaid: havePaid, arisanId: req.params.arisanId },
+        });
+      }
+      else {
+        var data = await Participant.findAll({
+          where: { haveWon: haveWon, arisanId: req.params.arisanId },
+        });
+      }
       res.status(200).json({
         status: "Success",
         message: "participant filtered",
@@ -173,7 +180,6 @@ module.exports = {
           attributes: ["totalParticipant", "userId"]
         }]
       })
-      console.log(data)
       if (data.dataValues.arisan.dataValues.userId ==! req.user.id) {
         return res.status(401).json({
           status: "Failed",
@@ -213,8 +219,6 @@ module.exports = {
   },
   fetchAll: async (req, res) => {
     try {
-      //if user have participant phoneNumber in contacts name from contact model
-      //else name from user model
       const participants = await Participant.findAll({
         where: { arisanId: req.params.arisanId },
         include: [
