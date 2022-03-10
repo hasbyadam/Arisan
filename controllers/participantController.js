@@ -134,19 +134,58 @@ module.exports = {
     try {
       const { haveWon, havePaid } = req.body;
       if (req.body.havePaid === true || req.body.havePaid === false) {
-        var data = await Participant.findAll({
+        var participants = await Participant.findAll({
           where: { havePaid: havePaid, arisanId: req.params.arisanId },
+          include: [
+            {
+              model: User,
+              as: "user",
+              attributes: ["firstName", "phoneNumber", "image"]
+            }
+          ]
         });
       }
       else {
-        var data = await Participant.findAll({
+        var participants = await Participant.findAll({
           where: { haveWon: haveWon, arisanId: req.params.arisanId },
+          include: [
+            {
+              model: User,
+              as: "user",
+              attributes: ["firstName", "phoneNumber", "image"]
+            }
+          ]
         });
       }
+      const result = []
+      let name
+
+      for (let i = 0; i < participants.length; i++){
+        var check = await Contact.findOne({
+          where: {
+            phoneNumber: participants[i].user.dataValues.phoneNumber,
+            userId: req.user.id
+          } 
+        })
+        if (check) {
+         name = check.dataValues.name
+        }
+        else {
+         name = participants[i].user.dataValues.firstName
+        }
+        const data = {
+          name: name,
+          phoneNumber: participants[i].user.dataValues.phoneNumber,
+          image: participants[i].user.dataValues.image,
+          haveWon: participants[i].dataValues.haveWon,
+          havePaid: participants[i].dataValues.havePaid,
+        }
+        result.push(data)
+        }
       res.status(200).json({
         status: "Success",
         message: "participant filtered",
-        result: data,
+        result: result,
       });
     } catch (error) {
       catchError(error, res);

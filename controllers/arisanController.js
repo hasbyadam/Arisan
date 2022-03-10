@@ -270,6 +270,7 @@ module.exports = {
         where: {
           arisanId: req.params.arisanId,
           haveWon: false,
+          havePaid: true
         },
       });
       if (participant.length == 0)
