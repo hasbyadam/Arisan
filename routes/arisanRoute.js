@@ -28,7 +28,6 @@ router.get("/:arisanId", isLogin, lotterystats, getArisan);
 router.put("/:arisanId", isLogin, validate(updateArisanSchema), updateArisan);
 router.delete("/:arisanId", isLogin, deleteArisan);
 router.get("/raffle/:arisanId", isLogin, startRaffle);
-
 router.get("/history/:arisanId", isLogin, fetchHistory);
 router.get("/sort/memory", isLogin, sortArisanByMemory);
 

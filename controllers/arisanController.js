@@ -273,7 +273,6 @@ module.exports = {
           havePaid: true
         },
       });
-      console.log(participant)
       if (participant.length == 0)
         return res.status(400).json({
           status: "Failed",
@@ -319,6 +318,7 @@ module.exports = {
         participantId: participants[randNumb],
         periode: periode + next,
         arisanId: req.params.arisanId,
+        balance: winner.dataValues.arisan.dataValues.balance
       });
 
       await Participant.update(
@@ -343,17 +343,12 @@ module.exports = {
       const data = await History.findAll({
         include: {
           model: Participant,
-          attributes: ["userId", "arisanId"],
+          attributes: ["userId"],
           include: [
             {
               model: User,
               as: "user",
               attributes: ["firstName", "lastName"],
-            },
-            {
-              model: Arisan,
-              as: "arisan",
-              attributes: ["balance"],
             },
           ],
         },
@@ -380,6 +375,23 @@ module.exports = {
         status: "Success",
         message: "sort Succsessfull",
         result: data,
+      });
+    } catch (error) {
+      catchError(error, res);
+    }
+  },
+  editStatus: async (req, res) => {
+    try {
+      const { status } = req.body
+      await Arisan.update({
+        status: status
+      }, {
+        where: { id: req.params.arisanId }
+      })
+      res.status(200).json({
+        status: "Success",
+        message: "edit Succsessfull",
+        result: {},
       });
     } catch (error) {
       catchError(error, res);

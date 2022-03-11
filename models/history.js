@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     participantId: DataTypes.INTEGER,
     arisanId: DataTypes.INTEGER,
     periode: DataTypes.STRING,
+    balance: DataTypes.INTEGER
     
   }, {
     sequelize,
