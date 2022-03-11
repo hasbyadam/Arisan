@@ -329,6 +329,8 @@ module.exports = {
         { balance: 0 },
         { where: { id : req.params.arisanId } }
       );
+      winner.dataValues.periode = periode + next
+      console.log(winner.periode)
       res.status(200).json({
         status: "Success",
         message: "Raffle Succsessfull",
