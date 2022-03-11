@@ -273,6 +273,7 @@ module.exports = {
           havePaid: true
         },
       });
+      console.log(participant)
       if (participant.length == 0)
         return res.status(400).json({
           status: "Failed",
@@ -319,6 +320,15 @@ module.exports = {
         periode: periode + next,
         arisanId: req.params.arisanId,
       });
+
+      await Participant.update(
+        { havePaid: false },
+        { where: { arisanId : req.params.arisanId } }
+      );
+      await Arisan.update(
+        { balance: 0 },
+        { where: { id : req.params.arisanId } }
+      );
       res.status(200).json({
         status: "Success",
         message: "Raffle Succsessfull",
