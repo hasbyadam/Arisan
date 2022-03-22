@@ -24,5 +24,5 @@ This is the API for Arisan App
 [Arisan App Documentation](https://bit.ly/Arisan_API_Doc)
 ## Credits
 * [Muhammad Hasby Addamaghany](https://github.com/hasbyadam)
-* [Azka Wahyu Setyan](https://github.com/azkasetyan)
+* [Azka Wahyu Setyan](https://github.com/azkawahyu)
 
