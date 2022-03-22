@@ -5,7 +5,7 @@ Arisan is a Bookkeeping app tailored specifically to manage “Rotating Savings 
 This is the API for Arisan App
 ### Current working features
 * SignIn / SignUp
-* Google oAuth
+* Google & Facebook oAuth
 * Profile CRUD
 * Contact List CRUD
 * Arisan CRUD
