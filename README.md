@@ -15,6 +15,9 @@ This is the API for Arisan App
 * Node.js
 * Express
 * PosgreSQL
+* Sequelize
 * Heroku
+* Google oAuth
+* Facebook oAuth
 ## Documentation
 [Arisan App Documentation](https://bit.ly/Arisan_API_Doc)
